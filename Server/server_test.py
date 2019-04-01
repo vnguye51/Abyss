@@ -1,38 +1,40 @@
 import asyncio,time,struct,json
+from players import *
 
 HOST = '127.0.0.1'
 PORT = 8080
 
-class Player:
-    def __init__(self,x=0,y=0):
-        self.x = x
-        self.y = y 
 
-    def player_input(self,input_map):
-        if input_map["up"] == 1:
-            self.y -= 4
-        if input_map["left"] == 1:
-            self.x -= 4
-        if input_map["down"] == 1:
-            self.y += 4
-        if input_map["right"] == 1:
-            self.x += 4
+players = Players()
+id_assignment = 0
 
-    def export_packet(self):
-        pos_data = {
-            "x": self.x,
-            "y": self.y
+def first_connect(reader,writer,client_id):
+    message ={
+        "id": 0,
+        "message": {
+            "client_id": client_id
         }
-        return json.dumps(pos_data).encode()
+    }
+    encoded_message = json.dumps(message).encode()
 
-players_list = []
+    writer.write(encoded_message)
+    writer.drain()
 
 async def echo_server(reader, writer):
+    global id_assignment
+    
     addr = writer.get_extra_info('peername')
-    print("Client connected at %s" % addr[0])
-    player = Player()
-    players_list.append(player)
+    print("Client connected at (%s,%s)" % (addr[0],addr[1]))
+    ##instantiate new player
+    player = Player(0,0,id_assignment)
+    id_assignment += 1
+    #append player to the list of all players
+    players.player_array.append(player)
+
+    first_connect(reader,writer,player.id)
+
     while True:
+        ##main loop for socket
         data = await reader.read(1024)  # Max number of bytes to read
         decoded_data = data.decode("utf-8").split("\x00")
         inputs = json.loads(decoded_data[0])
@@ -40,7 +42,7 @@ async def echo_server(reader, writer):
         if not data:
             print('breaking connection to %s' % addr[1])
             break
-        writer.write(player.export_packet())
+        writer.write(players.export_packet())
         await writer.drain()  # Flow control, see later
     writer.close()
     

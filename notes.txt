@@ -1,0 +1,3 @@
+OPTIMIZATIONS:
+    * Currently the client loops through the entire list of players to identify which data is itself
+        * Might want to consider using a map
