@@ -3,8 +3,11 @@ class Players:
     def __init__(self):
         self.player_array = []
     
+    def get_player_data(self):
+        return [{"id": player.id, "x": player.x,"y": player.y} for player in self.player_array]
+
     def export_packet(self):
-        player_data = [{"id": player.id, "x": player.x,"y": player.y} for player in self.player_array]
+        player_data = self.get_player_data()
         data = {
             "id": 1,
             "message": player_data

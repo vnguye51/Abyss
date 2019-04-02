@@ -9,10 +9,12 @@ players = Players()
 id_assignment = 0
 
 def first_connect(reader,writer,client_id):
+    global players
     message ={
         "id": 0,
         "message": {
-            "client_id": client_id
+            "client_id": client_id,
+            "players": players.get_player_data()
         }
     }
     encoded_message = json.dumps(message).encode()
@@ -21,7 +23,7 @@ def first_connect(reader,writer,client_id):
     writer.drain()
 
 async def echo_server(reader, writer):
-    global id_assignment
+    global id_assignment, players
     
     addr = writer.get_extra_info('peername')
     print("Client connected at (%s,%s)" % (addr[0],addr[1]))

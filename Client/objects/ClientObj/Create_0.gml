@@ -1,3 +1,5 @@
+globalvar players;
+globalvar client_id;
 socket = network_create_socket(network_socket_tcp);
 show_debug_message("creating socket")
 client_id = -1
@@ -25,6 +27,7 @@ ds_map_add(key_inputs,"up",0)
 ds_map_add(key_inputs,"down",0)
 ds_map_add(key_inputs,"space",0)
 
-player_pos = ds_map_create()
-ds_map_add(player_pos,"x",0)
-ds_map_add(player_pos,"y",0)
+
+//player_pos = ds_map_create()
+//ds_map_add(player_pos,"x",0)
+//ds_map_add(player_pos,"y",0)

@@ -1,3 +1,11 @@
+TODO:
+    * When a new client connects, the old clients have to add the player
+    * Add collision between players
+    * Add collision with walls
+    * Add collision 
+
+
+
 OPTIMIZATIONS:
     * Currently the client loops through the entire list of players to identify which data is itself
         * Might want to consider using a map
