@@ -9,17 +9,18 @@ class Players:
     def export_packet(self):
         player_data = self.get_player_data()
         data = {
-            "id": 1,
+            "id": 2,
             "message": player_data
         }
         return json.dumps(data).encode()
 
 
 class Character:
-    def __init__(self,x,y,id):
+    def __init__(self,x,y,id,writer):
         self.x = x
         self.y = y 
         self.id = id
+        self.writer = writer
 
 class Player(Character):
     def player_input(self,input_map):

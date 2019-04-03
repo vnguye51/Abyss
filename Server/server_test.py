@@ -8,7 +8,8 @@ PORT = 8080
 players = Players()
 id_assignment = 0
 
-def first_connect(reader,writer,client_id):
+
+def first_connect(writer,client_id):
     global players
     message ={
         "id": 0,
@@ -18,23 +19,39 @@ def first_connect(reader,writer,client_id):
         }
     }
     encoded_message = json.dumps(message).encode()
-
     writer.write(encoded_message)
-    writer.drain()
+
+def add_player(new_player):
+    #Send a message to all clients that are not the 
+    global players
+    print('adding new player!')
+    message ={
+        "id": 1,
+        "message":{
+            "new_player_id": new_player.id,
+            "x": new_player.x,
+            "y": new_player.y
+        }
+    }
+    encoded_message = json.dumps(message).encode()
+    for player in players.player_array:
+        if player.id != new_player.id:
+            player.writer.write(encoded_message)
+    # coroutines = [write_and_drain(player.writer,encoded_message) for player in players.player_array if player.id != new_player.id ]
+    # await asyncio.create_task(*coroutines)
+
 
 async def echo_server(reader, writer):
     global id_assignment, players
-    
     addr = writer.get_extra_info('peername')
     print("Client connected at (%s,%s)" % (addr[0],addr[1]))
     ##instantiate new player
-    player = Player(0,0,id_assignment)
+    player = Player(0,0,id_assignment,writer)
     id_assignment += 1
     #append player to the list of all players
     players.player_array.append(player)
-
-    first_connect(reader,writer,player.id)
-
+    first_connect(writer,player.id)
+    add_player(player)
     while True:
         ##main loop for socket
         data = await reader.read(1024)  # Max number of bytes to read
@@ -44,8 +61,11 @@ async def echo_server(reader, writer):
         if not data:
             print('breaking connection to %s' % addr[1])
             break
-        writer.write(players.export_packet())
-        await writer.drain()  # Flow control, see later
+        try:
+            writer.write(players.export_packet())
+        except ConnectionError:
+            break
+        await writer.drain()
     writer.close()
     
     
