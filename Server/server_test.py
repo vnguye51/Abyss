@@ -21,10 +21,31 @@ def first_connect(writer,client_id):
     encoded_message = json.dumps(message).encode()
     writer.write(encoded_message)
 
-def add_player(new_player):
-    #Send a message to all clients that are not the 
+def on_disconnect(disc_player):
     global players
-    print('adding new player!')
+    message = {
+        "id": 2,
+        "message":{
+            "player_id": disc_player.id
+        }
+    }
+    encoded_message = json.dumps(message).encode()
+    #Send a message to all clients that are not the disconnected player
+    delete_flag = -1
+    for i,player in enumerate(players.player_array):
+        if player.id != disc_player.id:
+            player.writer.write(encoded_message)
+        else:
+            delete_flag = i
+
+
+    players.player_array.pop(delete_flag)
+            
+    
+
+def add_player(new_player):
+    #Send a message to all clients that are not the new player
+    global players
     message ={
         "id": 1,
         "message":{
@@ -53,21 +74,22 @@ async def echo_server(reader, writer):
     first_connect(writer,player.id)
     add_player(player)
     while True:
-        ##main loop for socket
-        data = await reader.read(1024)  # Max number of bytes to read
-        decoded_data = data.decode("utf-8").split("\x00")
-        inputs = json.loads(decoded_data[0])
-        player.player_input(inputs)
-        if not data:
-            print('breaking connection to %s' % addr[1])
-            break
         try:
+            ##main loop for socket
+            data = await reader.read(1024)  # Max number of bytes to read
+            decoded_data = data.decode("utf-8").split("\x00")
+            inputs = json.loads(decoded_data[0])
+            player.player_input(inputs)
+            if not data:
+                print('breaking connection to %s' % addr[1])
+                break
             writer.write(players.export_packet())
+            await writer.drain()
         except ConnectionError:
-            break
-        await writer.drain()
+            on_disconnect(player)
+            print("Lost Connection to (%s,%s)" % (addr[0],addr[1]))
+            break 
     writer.close()
-    
     
 async def main(host, port):
     server = await asyncio.start_server(echo_server, host, port)

@@ -4,12 +4,18 @@ class Players:
         self.player_array = []
     
     def get_player_data(self):
-        return [{"id": player.id, "x": player.x,"y": player.y} for player in self.player_array]
+        res = {}
+        for player in self.player_array:
+            res[str(player.id)] = {
+                "x": player.x,
+                "y": player.y
+            }
+        return res
 
     def export_packet(self):
         player_data = self.get_player_data()
         data = {
-            "id": 2,
+            "id": 3,
             "message": player_data
         }
         return json.dumps(data).encode()
