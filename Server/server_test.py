@@ -7,8 +7,8 @@ PORT = 8080
 
 players = Players()
 enemies = Enemies()
+enemies.instantiate(Goblin, 200, 120)
 id_assignment = 0
-
 
 def first_connect(writer,client_id):
     global players
@@ -16,7 +16,8 @@ def first_connect(writer,client_id):
         "id": 0,
         "message": {
             "client_id": client_id,
-            "players": players.get_data()
+            "players": players.get_data(),
+            "enemies": enemies.get_data()
         }
     }
     encoded_message = json.dumps(message).encode()

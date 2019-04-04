@@ -1,27 +1,65 @@
 import json
+from random import randint
 import utils
 
 class Enemies:
     def __init__(self):
         self.enemy_array = []
+        self.id_assignment = 0
 
     def get_data(self):
         res = {}
         for enemy in self.enemy_array:
             res[str(enemy.id)] = {
+                "name": enemy.name,
                 "x": enemy.x,
                 "y": enemy.y
             }
         return res
-    
+
+    def instantiate(self,Enemy,x,y):
+        self.enemy_array.append(Enemy(x,y,self.id_assignment))
+        self.id_assignment += 1
+
 class Enemy: 
-    def __init__(self,x,y):
+    def __init__(self,x,y,id):
+        self.id = id
         self.x = x
         self.y = y
         self.xvel = 0
         self.yvel = 0
         self.width = 16
         self.height = 16
+
+class Goblin(Enemy):
+    def __init__(self,x,y,id):
+        self.id = id
+        self.name = "GoblinObj"
+        self.x = x
+        self.y = y
+        self.xvel = 0
+        self.yvel = 0
+        self.width = 16
+        self.height = 16
+        self.timer = 0
+        self.pattern = 1
+        
+    def update(self):
+        if self.pattern == 1:
+            if self.timer == 0:
+                self.timer = 30
+                self.xvel = 0
+                self.yvel = 0
+                self.pattern = 2
+        else:
+            if self.timer == 0:
+                self.pattern = 1
+                self.xvel = 1*randint(-1,1)
+                self.yvel = 1*randint(-1,1)
+                self.timer = 60
+        self.timer = max(0,self.timer-1)
+        self.x += self.xvel
+        self.y += self.yvel
 
 class Players:
     def __init__(self):
