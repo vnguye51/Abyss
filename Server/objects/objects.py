@@ -1,10 +1,33 @@
 import json
 import utils
+
+class Enemies:
+    def __init__(self):
+        self.enemy_array = []
+
+    def get_data(self):
+        res = {}
+        for enemy in self.enemy_array:
+            res[str(enemy.id)] = {
+                "x": enemy.x,
+                "y": enemy.y
+            }
+        return res
+    
+class Enemy: 
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.xvel = 0
+        self.yvel = 0
+        self.width = 16
+        self.height = 16
+
 class Players:
     def __init__(self):
         self.player_array = []
     
-    def get_player_data(self):
+    def get_data(self):
         res = {}
         for player in self.player_array:
             res[str(player.id)] = {
@@ -12,14 +35,6 @@ class Players:
                 "y": player.y
             }
         return res
-
-    def export_packet(self):
-        player_data = self.get_player_data()
-        data = {
-            "id": 3,
-            "message": player_data
-        }
-        return json.dumps(data).encode()
 
     def is_colliding(self):
         #Returns list of colliding players
@@ -42,10 +57,6 @@ class Character:
         self.height = 16
         self.id = id
         self.writer = writer
-
-
-        
-
 
 class Player(Character):
     def player_input(self,input_map):
