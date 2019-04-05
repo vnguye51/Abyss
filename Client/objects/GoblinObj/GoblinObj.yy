@@ -1,18 +1,18 @@
 {
-    "id": "d110a28a-4ed8-4482-ad5e-9799289b2501",
+    "id": "d0139972-fa9b-47c5-a7d5-da5d44d33160",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "PlayerObj",
+    "name": "GoblinObj",
     "eventList": [
         {
-            "id": "13ef86fa-5b46-4e74-928b-6f32370e815e",
+            "id": "2771efa0-00b1-45bc-92a2-ef45166b917e",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
             "enumb": 0,
             "eventtype": 3,
-            "m_owner": "d110a28a-4ed8-4482-ad5e-9799289b2501"
+            "m_owner": "d0139972-fa9b-47c5-a7d5-da5d44d33160"
         }
     ],
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",
@@ -33,6 +33,6 @@
     "physicsStartAwake": true,
     "properties": null,
     "solid": false,
-    "spriteId": "99ad03b8-93a9-432e-8370-4b52055e6c47",
+    "spriteId": "74186d7e-0014-48ed-a300-c3ced3564db7",
     "visible": true
 }

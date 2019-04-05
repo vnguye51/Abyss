@@ -111,6 +111,14 @@
             }
         },
         {
+            "Key": "4e32938a-1e0d-4dcd-a517-c619197aa59b",
+            "Value": {
+                "id": "4c1b9e6f-e569-434d-958f-e0eb587a9a4c",
+                "resourcePath": "scripts\\PacketSplitter\\PacketSplitter.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "51df3936-4e37-4581-8454-884d6a1f1312",
             "Value": {
                 "id": "513328a0-1a8a-4403-bc16-bb3f840c9c9d",
@@ -124,6 +132,14 @@
                 "id": "3506b2ff-2835-49b7-b449-5e8301eff48d",
                 "resourcePath": "views\\53b8c655-54f2-4ca2-939b-9c20f5f860ab.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "74186d7e-0014-48ed-a300-c3ced3564db7",
+            "Value": {
+                "id": "45afaab7-9a97-498b-95d8-d1850e51cca5",
+                "resourcePath": "sprites\\GoblinSprite\\GoblinSprite.yy",
+                "resourceType": "GMSprite"
             }
         },
         {
@@ -199,6 +215,14 @@
             }
         },
         {
+            "Key": "d0139972-fa9b-47c5-a7d5-da5d44d33160",
+            "Value": {
+                "id": "c48221dd-c332-4dce-8f27-f9d387d480e6",
+                "resourcePath": "objects\\GoblinObj\\GoblinObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "d074c181-78b8-4163-8b9b-0b6da851370e",
             "Value": {
                 "id": "e52b755a-a0b6-4abe-8c8c-0ebf2de12277",
@@ -257,7 +281,8 @@
     ],
     "script_order": [
         "8ccd2ca1-8d43-4d2c-9208-ddc44d88ecad",
-        "f759e432-5451-455f-b6ab-b1139cd7971d"
+        "f759e432-5451-455f-b6ab-b1139cd7971d",
+        "4e32938a-1e0d-4dcd-a517-c619197aa59b"
     ],
     "tutorial": ""
 }

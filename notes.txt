@@ -1,11 +1,26 @@
 TODO:
-    * When a new client connects, the old clients have to add the player
-    * Add collision between players
-    * Add collision with walls
-    * Add collision 
+    * Player Direction
+    * Player attack
+    * Destoy enemy
+    * Change collision to spatial map based
+    * Add collision with environment
+    * Add collision with enemies
+    * Add collision for enemies with walls
+    * Change server tick to be based on deltatime
+    * Instancing
+    
 
-
+Collision Resolution: Stack system
+    * Sort the stack by highest velocity to prioritise locking in things with higher velocity first
+    * resolve the first collision prioritising pushing away the char with less velocity
+    * That player's position is now locked
+    * Recheck the new players position and see if there are any collisions by referencing the spatial map at the new location
+    * Insert the new players collision preserving the velocity order
+    * Loop until all collisions are resolved
 
 OPTIMIZATIONS:
     * Currently the client loops through the entire list of players to identify which data is itself
         * Might want to consider using a map
+    * object layer in tilemap should not use sprites rather it should use a solid color tile that will be covered
+THINGS TO THINK ABOUT ADDING:
+    * Change collision resolution to be vector based

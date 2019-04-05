@@ -84,7 +84,7 @@ class SpatialMap:
                             a.y += 1
                         else:
                             a.y -= 1
-
+                            
 def AABB(a,b):
     if(a.x < b.x + b.width and
         a.x + a.width > b.x and 
