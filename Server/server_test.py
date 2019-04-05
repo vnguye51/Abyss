@@ -1,14 +1,21 @@
 import asyncio,time,struct,json
 from objects.objects import *
+from utils import SpatialMap
 
+##Assign Port and IP of Host
 HOST = '127.0.0.1'
 PORT = 8080
 
+##Grab map data
+map_file = open("../maps/test_map.json")
+map_json = json.load(map_file)
+map_file.close()
 
 players = Players()
 enemies = Enemies()
 enemies.instantiate(Goblin, 200, 120)
 id_assignment = 0
+spatial_map = SpatialMap(map_json)
 
 def first_connect(writer,client_id):
     global players
@@ -57,7 +64,6 @@ def on_disconnect(disc_player):
             player.writer.write(encoded_message)
         else:
             delete_flag = i
-
 
     players.player_array.pop(delete_flag)
             
@@ -110,10 +116,8 @@ async def game_loop():
             player.y += player.yvel
         for enemy in enemies.enemy_array:
             enemy.update()
-        #Resolve collisions between players
-        collisions = players.is_colliding()
-        utils.collision_resolution(collisions)
-
+        spatial_map.collision_resolution()
+        spatial_map.update_map(players,enemies)
         await asyncio.sleep(1.0/30.0)
     
 async def main(host, port):

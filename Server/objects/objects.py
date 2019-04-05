@@ -43,21 +43,21 @@ class Goblin(Enemy):
         self.height = 16
         self.timer = 0
         self.pattern = 1
-        
+
     def update(self):
-        if self.pattern == 1:
-            if self.timer == 0:
-                self.timer = 30
-                self.xvel = 0
-                self.yvel = 0
-                self.pattern = 2
-        else:
-            if self.timer == 0:
-                self.pattern = 1
-                self.xvel = 1*randint(-1,1)
-                self.yvel = 1*randint(-1,1)
-                self.timer = 60
-        self.timer = max(0,self.timer-1)
+        # if self.pattern == 1:
+        #     if self.timer == 0:
+        #         self.timer = 30
+        #         self.xvel = 0
+        #         self.yvel = 0
+        #         self.pattern = 2
+        # else:
+        #     if self.timer == 0:
+        #         self.pattern = 1
+        #         self.xvel = 1*randint(-1,1)
+        #         self.yvel = 1*randint(-1,1)
+        #         self.timer = 60
+        # self.timer = max(0,self.timer-1)
         self.x += self.xvel
         self.y += self.yvel
 
@@ -74,17 +74,6 @@ class Players:
             }
         return res
 
-    def is_colliding(self):
-        #Returns list of colliding players
-        res = []
-        for i in range(0,len(self.player_array)):
-            char1 = self.player_array[i]
-            for j in range(i+1,len(self.player_array)):
-                char2 = self.player_array[j]
-                if utils.AABB(char1,char2):
-                    res.append((char1,char2))
-        return res
-
 class Character:
     def __init__(self,x,y,id,writer):
         self.x = x
@@ -95,8 +84,12 @@ class Character:
         self.height = 16
         self.id = id
         self.writer = writer
+        self.direction = "N" #NSWE cardinal directions
 
 class Player(Character):
+    def attack(self):
+        pass
+
     def player_input(self,input_map):
         if input_map["left"] == 1:
             self.xvel = -4
@@ -110,3 +103,6 @@ class Player(Character):
             self.yvel = 4
         else:
             self.yvel = 0
+
+        if input_map["space"] == 1:
+            self.attack()
