@@ -28,6 +28,7 @@ class Enemy:
         self.y = y
         self.xvel = 0
         self.yvel = 0
+        self.pos_lock = False
         self.width = 16
         self.height = 16
 
@@ -39,12 +40,15 @@ class Goblin(Enemy):
         self.y = y
         self.xvel = 0
         self.yvel = 0
+        self.pos_lock = False
         self.width = 16
         self.height = 16
         self.timer = 0
         self.pattern = 1
 
     def update(self):
+        self.xvel = 0
+        self.yvel = 0
         # if self.pattern == 1:
         #     if self.timer == 0:
         #         self.timer = 30
@@ -80,6 +84,7 @@ class Character:
         self.y = y 
         self.xvel = 0
         self.yvel = 0
+        self.pos_lock = False
         self.width = 16
         self.height = 16
         self.id = id

@@ -1,6 +1,6 @@
 import asyncio,time,struct,json
 from objects.objects import *
-from utils import SpatialMap
+from utils import SpatialMap, AABB
 
 ##Assign Port and IP of Host
 HOST = '127.0.0.1'
@@ -110,15 +110,24 @@ async def echo_server(reader, writer):
 
 async def game_loop():
     while True:
+        print('------------')
         #Move players based on their velocity
         for player in players.player_array:
             player.x += player.xvel
             player.y += player.yvel
         for enemy in enemies.enemy_array:
             enemy.update()
-        spatial_map.collision_resolution()
         spatial_map.update_map(players,enemies)
-        await asyncio.sleep(1.0/30.0)
+        spatial_map.collision_resolution()
+        for i in range(0,len(players.player_array)):
+            for j in range(i+1,len(players.player_array)):
+                if utils.AABB(players.player_array[i],players.player_array[j]):
+                    print("AAAAAAAAAAAAAAAAAAa")
+        
+        for player in players.player_array:
+            print(player.x,player.y)
+
+        await asyncio.sleep(1.0/10.0)
     
 async def main(host, port):
     server = await asyncio.start_server(echo_server, host, port)

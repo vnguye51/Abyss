@@ -1,4 +1,5 @@
 TODO:
+    * Implement collision with locking queue mechanism
     * Player Direction
     * Player attack
     * Destoy enemy
