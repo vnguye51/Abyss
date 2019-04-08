@@ -13,6 +13,8 @@ map_file.close()
 
 players = Players()
 enemies = Enemies()
+attacks = Attacks()
+
 enemies.instantiate(Goblin, 64, 64)
 id_assignment = 0
 spatial_map = SpatialMap(map_json)
@@ -68,13 +70,14 @@ def on_disconnect(disc_player):
     players.player_array.pop(delete_flag)
             
     
-def export_objects(player_data,enemy_data):
+def export_objects(player_data,enemy_data,attack_data):
     """Encode a message containing player and enemy info"""
     data = {
         "id": 3,
         "message": {
             "player_data": player_data,
-            "enemy_data": enemy_data
+            "enemy_data": enemy_data,
+            "attack_data": attack_data
         }
     }
     return json.dumps(data).encode()
@@ -84,7 +87,7 @@ async def echo_server(reader, writer):
     addr = writer.get_extra_info('peername')
     print("Client connected at (%s,%s)" % (addr[0],addr[1]))
     ##instantiate new player
-    player = Player(0,0,id_assignment,writer)
+    player = Player(16,16,id_assignment,writer,attacks)
     id_assignment += 1
     #append player to the list of all players
     players.player_array.append(player)
@@ -100,7 +103,7 @@ async def echo_server(reader, writer):
             if not data:
                 print('breaking connection to %s' % addr[1])
                 break
-            writer.write(export_objects(players.get_data(),enemies.get_data()))
+            writer.write(export_objects(players.get_data(),enemies.get_data(),attacks.get_data()))
             await writer.drain()
         except ConnectionError:
             on_disconnect(player)
@@ -114,15 +117,16 @@ async def game_loop():
         print('------------')
         #Move players based on their velocity
         for player in players.player_array:
-            player.prev_x = player.x
-            player.prev_y = player.y
-            player.momentum = player.weight+abs(player.xvel)+abs(player.yvel)
-            player.x += player.xvel
-            player.y += player.yvel
-            
+            player.update()           
             
         for enemy in enemies.enemy_array:
             enemy.update()
+
+        for i,attack in enumerate(attacks.attack_array):
+            attack.update()
+            if attack.flag_for_removal:
+                attacks.attack_array.pop(i)
+                
         spatial_map.update_map(players,enemies)
         spatial_map.collision_resolution()
         time_elapsed = time.time() - start

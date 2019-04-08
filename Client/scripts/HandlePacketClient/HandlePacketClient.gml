@@ -79,8 +79,7 @@ for(var i=0; i<ds_list_size(split_data); i++){
 			var message = data[? "message"]
 			players = message[? "player_data"]
 			enemies = message[? "enemy_data"]
+			attacks = message[? "attack_data"]
 			break
-		
-		
 	}	
 }

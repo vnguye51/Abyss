@@ -16,14 +16,13 @@ class SpatialMap:
     def update_map(self,players,enemies):
         """Update map should be called each tick. Takes in the list of all game objects and places them into the spatial map"""
         ##Reset map
+        ##Might be more efficient to remove and add players when they are moved rather than all at once
         objects = players.player_array + enemies.enemy_array + self.tiles
         for key in self.spatial_map.keys():
             self.spatial_map[key]["objects"] = []
 
         #For each object place a reference to them inside each tile they overlap
         for obj in objects:
-            # obj.pos_lock = False
-            # print(obj.x,obj.y)
             self.update_single_obj(obj)
             
     def update_single_obj(self,obj):
@@ -59,12 +58,9 @@ class SpatialMap:
                             collisions.append(collision)
 
     def collision_resolution(self):
-        collisions = []
-        
-        #initialize collision with all collisions
-        
+        collisions = []  
+        #initialize collision with all collisions  
         self.get_collisions(collisions,self.spatial_map.keys())
-        print(collisions)
         while collisions:
             #pop collision from stack
             collision = collisions.pop(0)
@@ -74,12 +70,9 @@ class SpatialMap:
                 continue
             self.resolve_collision_between(a,b)
             b.momentum = a.momentum
-            # b.xvel = a.xvel
-            # b.yvel = a.yvel
             self.update_single_obj(a)
             new_keys = self.update_single_obj(b)
             #insert any collisions that were generated from the move
-            #collisions
             self.get_collisions(collisions,new_keys)
 
 

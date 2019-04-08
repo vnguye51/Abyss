@@ -74,7 +74,7 @@
             "Key": "3207644f-efea-48ab-a3a2-af39bc0e0ce8",
             "Value": {
                 "id": "e4606766-0e20-4339-bff9-eae7499aaa4d",
-                "resourcePath": "sprites\\sprite2\\sprite2.yy",
+                "resourcePath": "sprites\\AttackSprite\\AttackSprite.yy",
                 "resourceType": "GMSprite"
             }
         },
