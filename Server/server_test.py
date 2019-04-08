@@ -13,7 +13,7 @@ map_file.close()
 
 players = Players()
 enemies = Enemies()
-enemies.instantiate(Goblin, 200, 120)
+enemies.instantiate(Goblin, 64, 64)
 id_assignment = 0
 spatial_map = SpatialMap(map_json)
 
@@ -110,24 +110,23 @@ async def echo_server(reader, writer):
 
 async def game_loop():
     while True:
+        start = time.time()
         print('------------')
         #Move players based on their velocity
         for player in players.player_array:
+            player.prev_x = player.x
+            player.prev_y = player.y
+            player.momentum = player.weight+abs(player.xvel)+abs(player.yvel)
             player.x += player.xvel
             player.y += player.yvel
+            
+            
         for enemy in enemies.enemy_array:
             enemy.update()
         spatial_map.update_map(players,enemies)
         spatial_map.collision_resolution()
-        for i in range(0,len(players.player_array)):
-            for j in range(i+1,len(players.player_array)):
-                if utils.AABB(players.player_array[i],players.player_array[j]):
-                    print("AAAAAAAAAAAAAAAAAAa")
-        
-        for player in players.player_array:
-            print(player.x,player.y)
-
-        await asyncio.sleep(1.0/10.0)
+        time_elapsed = time.time() - start
+        await asyncio.sleep(max(1.0/30.0-time_elapsed,0))
     
 async def main(host, port):
     server = await asyncio.start_server(echo_server, host, port)

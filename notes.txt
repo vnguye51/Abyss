@@ -12,12 +12,15 @@ TODO:
     
 
 Collision Resolution: Stack system
-    * Sort the stack by highest velocity to prioritise locking in things with higher velocity first
-    * resolve the first collision prioritising pushing away the char with less velocity
-    * That player's position is now locked
-    * Recheck the new players position and see if there are any collisions by referencing the spatial map at the new location
-    * Insert the new players collision preserving the velocity order
-    * Loop until all collisions are resolved
+    * Run one pass through all collisions and call the collision method() between each member
+
+    * Each object now "requests" its new position and is then resolved via the method:
+        * Sort the stack by highest velocity to prioritise locking in things with higher velocity first
+        * resolve the first collision prioritising pushing away the char with less velocity
+        * That player's position is now locked
+        * Recheck the new players position and see if there are any collisions by referencing the spatial map at the new location
+        * Insert the new players collision preserving the velocity order
+        * Loop until all collisions are resolved
 
 OPTIMIZATIONS:
     * Currently the client loops through the entire list of players to identify which data is itself

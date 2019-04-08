@@ -38,6 +38,8 @@ class Goblin(Enemy):
         self.name = "GoblinObj"
         self.x = x
         self.y = y
+        self.prev_x=0
+        self.prev_y=0
         self.xvel = 0
         self.yvel = 0
         self.pos_lock = False
@@ -45,10 +47,17 @@ class Goblin(Enemy):
         self.height = 16
         self.timer = 0
         self.pattern = 1
+        self.momentum = 999
+        self.weight = 10
+
+    def collide(self):
+        pass
 
     def update(self):
         self.xvel = 0
         self.yvel = 0
+        self.prev_x = self.x
+        self.prev_y = self.y
         # if self.pattern == 1:
         #     if self.timer == 0:
         #         self.timer = 30
@@ -64,6 +73,7 @@ class Goblin(Enemy):
         # self.timer = max(0,self.timer-1)
         self.x += self.xvel
         self.y += self.yvel
+        self.momentum = abs(self.xvel) + abs(self.yvel) + self.weight
 
 class Players:
     def __init__(self):
@@ -81,9 +91,13 @@ class Players:
 class Character:
     def __init__(self,x,y,id,writer):
         self.x = x
+        self.prev_x = 0
         self.y = y 
+        self.prev_y = 0
         self.xvel = 0
         self.yvel = 0
+        self.momentum = 0
+        self.weight = 1
         self.pos_lock = False
         self.width = 16
         self.height = 16
@@ -93,6 +107,9 @@ class Character:
 
 class Player(Character):
     def attack(self):
+        pass
+
+    def collide(self, obj):
         pass
 
     def player_input(self,input_map):

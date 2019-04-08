@@ -1,23 +1,29 @@
+from objects.tiles import Impassable
+
 class SpatialMap:
     def __init__(self,tiled_json):
         #The first layer should be the tilemap with collidables
         self.width = tiled_json["width"]
         self.height = tiled_json["height"]
-        self.spatial_map = {(x,y):{"objects":[],"impassable":False} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
+        self.spatial_map = {(x,y):{"objects":[]} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
         objects = tiled_json["layers"][0]["objects"]
+        self.tiles = []
         for obj in objects:
-            self.spatial_map[(obj["x"],obj["y"])]["impassable"] = True
+            self.tiles.append(Impassable(obj["x"],obj["y"]-obj["height"]))
+
+
 
     def update_map(self,players,enemies):
         """Update map should be called each tick. Takes in the list of all game objects and places them into the spatial map"""
         ##Reset map
-        objects = players.player_array + enemies.enemy_array
+        objects = players.player_array + enemies.enemy_array + self.tiles
         for key in self.spatial_map.keys():
             self.spatial_map[key]["objects"] = []
 
         #For each object place a reference to them inside each tile they overlap
         for obj in objects:
-            obj.pos_lock = False
+            # obj.pos_lock = False
+            # print(obj.x,obj.y)
             self.update_single_obj(obj)
             
     def update_single_obj(self,obj):
@@ -41,23 +47,24 @@ class SpatialMap:
                     if AABB(objects[i],objects[j]):
                         #Insert into the collision array by highest speed
                         collision = (objects[i],objects[j])
-                        speed = abs(objects[i].xvel)+abs(objects[i].yvel)
-                        speedJ = abs(objects[j].xvel)+abs(objects[j].yvel)
                         #If objects[j] is faster replace speed with its speed and flip the tuple so the faster element is first
-                        if speed < speedJ:
-                            speed = speedJ
+                        if objects[i].momentum < objects[j].momentum:
                             collision = (collision[1],collision[0])
+                        inserted = False
                         for k in range(0,len(collisions)):
-                            speedK = abs(collisions[k][0].xvel)+abs(collisions[k][1].yvel)
-                            if speed >= speedK:
+                            if collision[0].momentum >= collisions[k][0].momentum:
                                 collisions.insert(k,collision)
-                                return
-                        collisions.append(collision)
+                                break
+                        if not inserted:
+                            collisions.append(collision)
 
     def collision_resolution(self):
         collisions = []
+        
         #initialize collision with all collisions
+        
         self.get_collisions(collisions,self.spatial_map.keys())
+        print(collisions)
         while collisions:
             #pop collision from stack
             collision = collisions.pop(0)
@@ -66,10 +73,9 @@ class SpatialMap:
             if not AABB(a,b):
                 continue
             self.resolve_collision_between(a,b)
-            #The faster object gets to lock its place and the slower one inherits the velocity of the faster one
-            a.pos_lock = True
-            b.xvel = a.xvel
-            b.yvel = a.yvel
+            b.momentum = a.momentum
+            # b.xvel = a.xvel
+            # b.yvel = a.yvel
             self.update_single_obj(a)
             new_keys = self.update_single_obj(b)
             #insert any collisions that were generated from the move
@@ -88,72 +94,33 @@ class SpatialMap:
 
     def resolve_collision_between(self,a,b):
         #resolve horizontal collision
+
+        #move remove from map to collision resolution?
         self.remove_from_map(a)
         self.remove_from_map(b)
-        if a.pos_lock:
-            print('aaaa')
-            if b.pos_lock: raise ValueError
-            if a.x <= b.x:
-                while AABB(a,b):
-                    b.x += 1
-            else:
-                while AABB(a,b):
-                    b.x -= 1
-            if a.y <=  0:
-                while AABB(a,b):
-                    b.y += 1
-            else:
-                while AABB(a,b):
-                    b.y -= 1
 
-        elif a.xvel != 0 or b.xvel != 0:
-            if abs(a.xvel) == abs(b.xvel):
-                #!!!!!!!possible optimization only need to calculate horizontal/vertical collisions not both at once
-                while AABB(a,b):
-                    if a.x <= b.x:
-                        a.x -= 1
-                        b.x += 1
-                    else:
-                        a.x += 1
-                        b.x -= 1
-            elif abs(a.xvel) >= abs(b.xvel):
-                while AABB(a,b):
-                    if a.x <= b.x:
-                        b.x += 1
-                    else:
-                        b.x -= 1
-            else:
-                while AABB(a,b):
-                    if b.x <= a.x:
-                        a.x += 1
-                    else:
-                        a.x -= 1
-        #resolve vertical collision
-        elif a.yvel != 0 or b.yvel != 0:
-            if a.yvel == b.yvel and a.yvel != 0:
-                #!!!!!!!possible optimization only need to calculate horizontal/vertical collisions not both at once
-                while AABB(a,b):
-                    if a.y <= b.y:
-                        a.y -= 1
-                        b.y += 1
-                    else:
-                        a.y += 1
-                        b.y -= 1
-            elif abs(a.yvel) >= abs(b.yvel):
-                while AABB(a,b):
-                    if a.y <= b.y:
-                        b.y += 1
-                    else:
-                        b.y -= 1
-            else:
-                while AABB(a,b):
-                    if b.y <= a.y:
-                        a.y += 1
-                    else:
-                        a.y -= 1
+        if a.momentum >= b.momentum:
+            heavy_obj = a
+            light_obj = b
         else:
-            while AABB(a,b):
-                b.y += 1
+            light_obj = a
+            heavy_obj = b
+
+        direction = collision_direction(heavy_obj,light_obj)
+        ##If the light object collides with the heavy object from the right
+        if direction == "left":
+            while AABB(light_obj,heavy_obj):
+                light_obj.x -= 1
+        if direction == "right":
+            while AABB(light_obj,heavy_obj):
+                light_obj.x += 1
+        if direction == "top":
+            while AABB(light_obj,heavy_obj):
+                light_obj.y -= 1
+        if direction == "bottom":
+            while AABB(light_obj,heavy_obj):
+                light_obj.y += 1
+
 
 def AABB(a,b):
     if(a.x < b.x + b.width and
@@ -164,4 +131,14 @@ def AABB(a,b):
     else:
         return False
 
-
+def collision_direction(heavy,light):
+    ##if the left edge is greater then the right edge of the other object
+    if light.prev_x >= heavy.prev_x + heavy.width:
+        return "right"
+    if light.prev_x + light.width <= heavy.prev_x:
+        return "left"
+    if light.prev_y >= heavy.prev_y + heavy.height:
+        return "bottom"
+    if light.prev_y + light.height <= heavy.prev_y:
+        return "top"
+    raise ValueError
