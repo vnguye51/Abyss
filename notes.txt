@@ -28,3 +28,8 @@ OPTIMIZATIONS:
     * object layer in tilemap should not use sprites rather it should use a solid color tile that will be covered
 THINGS TO THINK ABOUT ADDING:
     * Change collision resolution to be vector based
+
+BUGS:
+* if player spawns on enemy in corner the collision breaks
+* diagonal movement pushing another player into a corner breaks collision
+* diagonal movement onto a wall catches the player if moving into a north or south wall

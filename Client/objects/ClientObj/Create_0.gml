@@ -1,12 +1,14 @@
-globalvar players;
 globalvar client_id;
 globalvar PlayerObjMap;
 globalvar EnemyObjMap;
+globalvar players;
 globalvar enemies;
 globalvar attacks;
 
-
+players = 0
+enemies = 0
 attacks = 0
+
 EnemyObjMap = ds_map_create()
 PlayerObjMap = ds_map_create();
 socket = network_create_socket(network_socket_tcp);

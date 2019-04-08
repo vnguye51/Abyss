@@ -88,7 +88,8 @@ class Players:
         for player in self.player_array:
             res[str(player.id)] = {
                 "x": player.x,
-                "y": player.y
+                "y": player.y,
+                "frame": player.frame
             }
         return res
 
@@ -109,30 +110,47 @@ class Character:
         self.id = id
         self.writer = writer
         self.direction = "N" #NSWE cardinal directions
+        self.frame = 0
         self.attacktimer = 5
         self.attack_handler = attack_handler
-
+        self.prev_input = {}
 class Player(Character):
     def collide(self, obj):
         pass
 
     def player_input(self,input_map):
         if self.control:
+            change_direction = True
+            if input_map["left"]+input_map["right"]+input_map["down"]+input_map["up"] > 1:
+                change_direction = False
+
             if input_map["left"] == 1:
+                if change_direction:
+                    self.direction = "W"
+                    self.frame = 2
                 self.xvel = -4
             elif input_map["right"] == 1:
+                if change_direction:
+                    self.direction = "E"
+                    self.frame = 0
                 self.xvel = 4
             else: 
                 self.xvel = 0
             if input_map["up"] == 1:
+                if change_direction:
+                    self.direction = "N"
+                    self.frame = 3
                 self.yvel = -4
             elif input_map["down"] == 1:
+                if change_direction:
+                    self.direction = "S"
+                    self.frame = 1
                 self.yvel = 4
             else:
                 self.yvel = 0
-
             if input_map["space"] == 1:
                 self.attack()
+        self.prev_input = input_map
 
     def attack(self):
         # self.control = False
@@ -149,13 +167,15 @@ class Attacks:
     def __init__(self):
         self.attack_array = []
         self.id_assignment = 0
+        self.sub_image = 0
 
     def get_data(self):
         res = {}
         for attack in self.attack_array:
             res[str(attack.id)] = {
                 "x": attack.x,
-                "y": attack.y
+                "y": attack.y,
+                "frame": attack.frame
             }
         return res
 
@@ -168,6 +188,7 @@ class Attack:
         self.id = id
         self.owner = owner
         self.flag_for_removal = False
+        self.frame = 0
     
     def collide(self,obj):
         pass
@@ -176,8 +197,24 @@ class Attack:
 class PlayerAttack(Attack):
     def __init__(self,owner,id):
         self.id = id
-        self.x = owner.x - 2
-        self.y = owner.y + 12
+        if owner.direction == "E":
+            self.frame = 1
+            offset_x = 16
+            offset_y = -2
+        elif owner.direction == "S":
+            self.frame = 0
+            offset_x = 2
+            offset_y = 16
+        elif owner.direction == "W":
+            self.frame = 1
+            offset_x = -16
+            offset_y = 2
+        else:
+            self.frame = 0
+            offset_x = -2
+            offset_y = -16
+        self.x = owner.x + offset_x
+        self.y = owner.y + offset_y
         self.width = 8
         self.height = 12
         self.owner = owner
