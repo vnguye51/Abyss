@@ -5,7 +5,7 @@ class SpatialMap:
         #The first layer should be the tilemap with collidables
         self.width = tiled_json["width"]
         self.height = tiled_json["height"]
-        self.spatial_map = {(x,y):{"objects":[]} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
+        self.spatial_map = {(x,y):{"objects":[],"attacks":[]} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
         objects = tiled_json["layers"][0]["objects"]
         self.tiles = []
         for obj in objects:
@@ -13,18 +13,26 @@ class SpatialMap:
 
 
 
-    def update_map(self,players,enemies):
+    def update_map(self,players,enemies,attacks):
         """Update map should be called each tick. Takes in the list of all game objects and places them into the spatial map"""
         ##Reset map
         ##Might be more efficient to remove and add players when they are moved rather than all at once
-        objects = players.player_array + enemies.enemy_array + self.tiles
+        objects = players.player_array + enemies.enemy_array + self.tiles 
+        attacks = attacks.attack_array
+
         for key in self.spatial_map.keys():
             self.spatial_map[key]["objects"] = []
+            self.spatial_map[key]["attacks"] = []
 
         #For each object place a reference to them inside each tile they overlap
         for obj in objects:
             self.update_single_obj(obj)
+        
+        for attack in attacks:
+            self.update_single_att(attack)
             
+            
+         
     def update_single_obj(self,obj):
         res = []
         x_floored_16 = obj.x-obj.x%16
@@ -35,6 +43,29 @@ class SpatialMap:
                 res.append(key)
                 self.spatial_map[key]["objects"].append(obj)
         return res
+
+    def update_single_att(self,att):
+        res = []
+        x_floored_16 = att.x-att.x%16
+        y_floored_16 = att.y-att.y%16
+        for x in range(x_floored_16,att.x+att.width,16):
+            for y in range(y_floored_16,att.y+att.height,16):
+                key = (x,y)
+                res.append(key)
+                self.spatial_map[key]["attacks"].append(att)
+        return res
+
+    def resolve_attacks(self):
+        keys = self.spatial_map.keys()
+        for key in keys:
+            attacks = self.spatial_map[key]["attacks"]
+            objects = self.spatial_map[key]["objects"]
+            for i in range(0, len(attacks)):
+                for j in range(0,len(objects)):
+                    if AABB(attacks[i],objects[j]):
+                        objects[j].receive_attack(attacks[i])
+            
+
 
     def get_collisions(self,collisions,keys):
         #Returns list of colliding objects
@@ -58,8 +89,8 @@ class SpatialMap:
                             collisions.append(collision)
 
     def collision_resolution(self):
-        collisions = []  
         #initialize collision with all collisions  
+        collisions = []
         self.get_collisions(collisions,self.spatial_map.keys())
         while collisions:
             #pop collision from stack

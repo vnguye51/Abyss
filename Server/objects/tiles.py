@@ -15,7 +15,12 @@ class Tile:
         ###Define what happens to the obj if it collides with this tile.
         pass
 
+    def receive_attack(self,attack):
+        pass
+
         
 class Impassable(Tile):
     def collide(self,obj):
         pass
+
+    

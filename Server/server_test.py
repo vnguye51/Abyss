@@ -126,8 +126,8 @@ async def game_loop():
             attack.update()
             if attack.flag_for_removal:
                 attacks.attack_array.pop(i)
-                
-        spatial_map.update_map(players,enemies)
+        spatial_map.resolve_attacks()
+        spatial_map.update_map(players,enemies,attacks)
         spatial_map.collision_resolution()
         time_elapsed = time.time() - start
         await asyncio.sleep(max(1.0/30.0-time_elapsed,0))

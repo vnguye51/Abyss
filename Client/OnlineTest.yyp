@@ -55,6 +55,14 @@
             }
         },
         {
+            "Key": "0ed232ba-0c8c-48e4-882e-d09c474abb1b",
+            "Value": {
+                "id": "3239f48a-b8d6-4752-bae8-0b732c2ea513",
+                "resourcePath": "shaders\\flash_shader\\flash_shader.yy",
+                "resourceType": "GMShader"
+            }
+        },
+        {
             "Key": "11dfc2a9-cbb6-42d0-bd2e-61207c29b8f0",
             "Value": {
                 "id": "bfde7d01-464e-4cbe-a8dc-7e0abbb1dc91",
@@ -68,6 +76,14 @@
                 "id": "fb24334f-c3d0-45c5-937e-9cafc3e6b2ce",
                 "resourcePath": "views\\2032a9fe-a343-4bd3-bae5-f6fe0b06545b.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "2a38c717-a927-4c00-bd93-b8c10f0b4bb0",
+            "Value": {
+                "id": "c264861b-0524-48a7-b4f2-44f1a655cac6",
+                "resourcePath": "shaders\\shader1\\shader1.yy",
+                "resourceType": "GMShader"
             }
         },
         {

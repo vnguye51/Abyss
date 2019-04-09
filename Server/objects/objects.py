@@ -13,7 +13,9 @@ class Enemies:
             res[str(enemy.id)] = {
                 "name": enemy.name,
                 "x": enemy.x,
-                "y": enemy.y
+                "y": enemy.y,
+                "frame": enemy.frame,
+                "vfx" : enemy.vfx
             }
         return res
 
@@ -32,13 +34,11 @@ class Enemy:
         self.width = 16
         self.height = 16
 
-    def hurt(self,atp):
-        print("i'm hit!")
-        pass
 
 class Goblin(Enemy):
     def __init__(self,x,y,id):
         self.id = id
+        self.hp = 5
         self.name = "GoblinObj"
         self.x = x
         self.y = y
@@ -53,9 +53,7 @@ class Goblin(Enemy):
         self.pattern = 1
         self.momentum = 999
         self.weight = 10
-
-    def collide(self):
-        pass
+        self.vfx_timer = 10
 
     def update(self):
         # self.xvel = 0
@@ -73,12 +71,30 @@ class Goblin(Enemy):
                 self.pattern = 1
                 self.xvel = 1*randint(-1,1)
                 self.yvel = 1*randint(-1,1)
+                if self.xvel > 0:
+                    self.frame = 0
+                elif self.xvel < 0:
+                    self.frame = 2
+                elif self.yvel > 0:
+                    self.frame = 1
+                else:
+                    self.frame = 3
                 self.timer = 60
         self.timer = max(0,self.timer-1)
+        if self.vfx_timer > 0:
+            self.vfx_timer = max(0,self.timer-1)
+            if self.vfx_timer == 0:
+                self.vfx = 0
         self.x += self.xvel
         self.y += self.yvel
         self.momentum = abs(self.xvel) + abs(self.yvel) + self.weight
 
+    def receive_attack(self,attack):
+        if isinstance(attack,PlayerAttack):
+            self.hp -= attack.atp
+            self.overlay = 1
+            self.vfx = 1
+            self.vfx_timer = 10
 class Players:
     def __init__(self):
         self.player_array = []
@@ -163,6 +179,11 @@ class Player(Character):
         self.x += self.xvel
         self.y += self.yvel
 
+
+    def receive_attack(self,attack):
+        pass
+
+
 class Attacks:
     def __init__(self):
         self.attack_array = []
@@ -220,10 +241,7 @@ class PlayerAttack(Attack):
         self.owner = owner
         self.flag_for_removal = False
         self.timer = 30
-
-    # def collide(self,obj):
-    #     if isinstance(obj,Enemy):
-    #         obj.hurt(1)
+        self.atp = 1
 
     def update(self):
         self.timer = max(0,self.timer-1)
