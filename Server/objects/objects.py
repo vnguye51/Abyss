@@ -54,6 +54,7 @@ class Goblin(Enemy):
         self.momentum = 999
         self.weight = 10
         self.vfx_timer = 10
+        self.invuln_to_attacks = []
 
     def update(self):
         # self.xvel = 0
@@ -87,14 +88,26 @@ class Goblin(Enemy):
                 self.vfx = 0
         self.x += self.xvel
         self.y += self.yvel
+
+        for attack in self.invuln_to_attacks:
+            attack[1] = max(0,attack[1]-1)
+
+        self.invuln_to_attacks = [attack for attack in self.invuln_to_attacks if attack[1] > 0]
+            
+
         self.momentum = abs(self.xvel) + abs(self.yvel) + self.weight
 
     def receive_attack(self,attack):
         if isinstance(attack,PlayerAttack):
+            for invuln in self.invuln_to_attacks:
+                if invuln[0] is attack:
+                    return
+            print('\nhit!!!!\n')
             self.hp -= attack.atp
             self.overlay = 1
             self.vfx = 1
-            self.vfx_timer = 10
+            self.vfx_timer = 15
+            self.invuln_to_attacks.append([attack,15])
 class Players:
     def __init__(self):
         self.player_array = []
@@ -240,7 +253,7 @@ class PlayerAttack(Attack):
         self.height = 12
         self.owner = owner
         self.flag_for_removal = False
-        self.timer = 30
+        self.timer = 15
         self.atp = 1
 
     def update(self):
