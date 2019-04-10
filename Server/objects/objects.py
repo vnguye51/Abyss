@@ -19,8 +19,8 @@ class Enemies:
             }
         return res
 
-    def instantiate(self,Enemy,x,y):
-        self.enemy_array.append(Enemy(x,y,self.id_assignment))
+    def instantiate(self,Enemy,x,y, attack_handler):
+        self.enemy_array.append(Enemy(x,y,self.id_assignment,attack_handler))
         self.id_assignment += 1
 
 class Enemy: 
@@ -36,7 +36,7 @@ class Enemy:
 
 
 class Goblin(Enemy):
-    def __init__(self,x,y,id):
+    def __init__(self,x,y,id,attack_handler):
         self.id = id
         self.hp = 5
         self.name = "GoblinObj"
@@ -55,6 +55,9 @@ class Goblin(Enemy):
         self.weight = 10
         self.vfx_timer = 10
         self.invuln_to_attacks = []
+        self.flag_for_removal = False
+        self.attack_handler = attack_handler
+        self.attack_handler.instantiate(GoblinAttack,self)
 
     def update(self):
         # self.xvel = 0
@@ -97,12 +100,14 @@ class Goblin(Enemy):
 
         self.momentum = abs(self.xvel) + abs(self.yvel) + self.weight
 
+        if self.hp <= 0:
+            self.flag_for_removal = True
+
     def receive_attack(self,attack):
         if isinstance(attack,PlayerAttack):
             for invuln in self.invuln_to_attacks:
                 if invuln[0] is attack:
                     return
-            print('\nhit!!!!\n')
             self.hp -= attack.atp
             self.overlay = 1
             self.vfx = 1
@@ -143,9 +148,13 @@ class Character:
         self.attacktimer = 5
         self.attack_handler = attack_handler
         self.prev_input = {}
+        self.flag_for_removal = False
+
 class Player(Character):
-    def collide(self, obj):
-        pass
+    def __init__(self,x,y,id,writer,attack_handler):
+        Character.__init__(self,x,y,id,writer,attack_handler)
+        self.hp = 10
+        
 
     def player_input(self,input_map):
         if self.control:
@@ -191,10 +200,13 @@ class Player(Character):
         self.momentum = self.weight+abs(self.xvel)+abs(self.yvel)
         self.x += self.xvel
         self.y += self.yvel
+        if self.hp <= 0:
+            self.flag_for_removal = True
 
 
     def receive_attack(self,attack):
-        pass
+        if isinstance(attack,EnemyAttack):
+            self.hp -= attack.atp
 
 
 class Attacks:
@@ -202,6 +214,7 @@ class Attacks:
         self.attack_array = []
         self.id_assignment = 0
         self.sub_image = 0
+        self.atp = 0
 
     def get_data(self):
         res = {}
@@ -222,12 +235,30 @@ class Attack:
         self.id = id
         self.owner = owner
         self.flag_for_removal = False
-        self.frame = 0
-    
-    def collide(self,obj):
-        pass
+        self.frame = -1
+
     def update(self):
         pass
+
+class EnemyAttack(Attack):
+    def update(self):
+        pass
+
+class GoblinAttack(EnemyAttack):
+    def __init__(self,owner,id):
+        EnemyAttack.__init__(self,owner,id)
+        self.x = owner.x 
+        self.y = owner.y
+        self.width = owner.width
+        self.height = owner.height
+        self.atp = 2
+
+    def update(self):
+        self.x = self.owner.x 
+        self.y = self.owner.y
+        if self.owner.hp <= 0:
+            self.flag_for_removal = True
+
 class PlayerAttack(Attack):
     def __init__(self,owner,id):
         self.id = id

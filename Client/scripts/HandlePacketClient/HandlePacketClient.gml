@@ -79,6 +79,16 @@ for(var i=0; i<ds_list_size(split_data); i++){
 			var message = data[? "message"]
 			players = message[? "player_data"]
 			enemies = message[? "enemy_data"]
+			key = ds_map_find_first(enemies)
+			for (var i=0; i<ds_map_size(enemies); i++) {
+				var enemy_info = enemies[? key]
+				if(is_undefined(EnemyObjMap[? key])){
+					var enemy = instance_create_depth(enemy_info[? "x"],enemy_info[? "y"],0,asset_get_index(enemy_info[? "name"]))
+					EnemyObjMap[? key] = enemy
+					enemy.enemy_id = key
+				}
+				key = ds_map_find_next(enemies,key)
+			}
 			attacks = message[? "attack_data"]
 			break
 	}	

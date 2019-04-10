@@ -15,7 +15,7 @@ players = Players()
 enemies = Enemies()
 attacks = Attacks()
 
-enemies.instantiate(Goblin, 64, 64)
+enemies.instantiate(Goblin, 64, 64, attacks)
 id_assignment = 0
 spatial_map = SpatialMap(map_json)
 
@@ -118,14 +118,17 @@ async def game_loop():
         #Move players based on their velocity
         for player in players.player_array:
             player.update()           
+        players.player_array = list(filter(lambda player: not player.flag_for_removal, players.player_array))
             
         for enemy in enemies.enemy_array:
             enemy.update()
+        enemies.enemy_array = list(filter(lambda enemy: not enemy.flag_for_removal,enemies.enemy_array))
 
-        for i,attack in enumerate(attacks.attack_array):
+        for attack in attacks.attack_array:
             attack.update()
-            if attack.flag_for_removal:
-                attacks.attack_array.pop(i)
+        attacks.attack_array = list(filter(lambda attack: not attack.flag_for_removal,attacks.attack_array))
+                
+
         spatial_map.resolve_attacks()
         spatial_map.update_map(players,enemies,attacks)
         spatial_map.collision_resolution()
