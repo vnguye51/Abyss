@@ -1,11 +1,8 @@
 TODO:
-    * Player attack
-    * Destoy enemy
-    * Change collision to spatial map based
-    * Add collision with environment
-    * Add collision with enemies
-    * Add collision for enemies with walls
-    * Change server tick to be based on deltatime
+    * Player attack(multi frame)
+        * all directions
+        * player cannot move while attacking
+        * damage cancels the attack
     * Instancing
     
 

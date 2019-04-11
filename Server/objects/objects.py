@@ -154,12 +154,13 @@ class Player(Character):
     def __init__(self,x,y,id,writer,attack_handler):
         Character.__init__(self,x,y,id,writer,attack_handler)
         self.hp = 10
+        self.attacking = False
         
 
     def player_input(self,input_map):
         if self.control:
             change_direction = True
-            if input_map["left"]+input_map["right"]+input_map["down"]+input_map["up"] > 1:
+            if input_map["left"]+input_map["right"]+input_map["down"]+input_map["up"] > 1 or self.attacking:
                 change_direction = False
 
             if input_map["left"] == 1:
@@ -186,7 +187,7 @@ class Player(Character):
                 self.yvel = 4
             else:
                 self.yvel = 0
-            if input_map["space"] == 1:
+            if input_map["space_pressed"] == 1:
                 self.attack()
         self.prev_input = input_map
 
@@ -227,7 +228,7 @@ class Attacks:
         return res
 
     def instantiate(self,Attack,owner):
-        self.attack_array.append(Attack(owner,self.id_assignment))
+        self.attack_array.append(Attack(self,owner,self.id_assignment))
         self.id_assignment += 1
 
 class Attack:
@@ -245,13 +246,14 @@ class EnemyAttack(Attack):
         pass
 
 class GoblinAttack(EnemyAttack):
-    def __init__(self,owner,id):
+    def __init__(self,attack_handler,owner,id):
         EnemyAttack.__init__(self,owner,id)
         self.x = owner.x 
         self.y = owner.y
         self.width = owner.width
         self.height = owner.height
         self.atp = 2
+        self.attack_handler = attack_handler
 
     def update(self):
         self.x = self.owner.x 
@@ -260,36 +262,33 @@ class GoblinAttack(EnemyAttack):
             self.flag_for_removal = True
 
 class PlayerAttack(Attack):
-    def __init__(self,owner,id):
+    def __init__(self,attack_handler,owner,id):
         self.id = id
-        if owner.direction == "E":
-            self.frame = 1
-            offset_x = 16
-            offset_y = -2
-        elif owner.direction == "S":
-            self.frame = 0
-            offset_x = 2
-            offset_y = 16
-        elif owner.direction == "W":
-            self.frame = 1
-            offset_x = -16
-            offset_y = 2
-        else:
-            self.frame = 0
-            offset_x = -2
-            offset_y = -16
-        self.x = owner.x + offset_x
-        self.y = owner.y + offset_y
-        self.width = 8
-        self.height = 12
         self.owner = owner
+        self.owner.attacking = True
         self.flag_for_removal = False
-        self.timer = 15
+        self.timer = 2
         self.atp = 1
+        self.attack_handler = attack_handler
+        self.pattern = [[owner.x+16,owner.y-6,24,10],[owner.x+13,owner.y-23,16,20],[owner.x+6,owner.y-29,12,24],[owner.x,owner.y-32,8,20]]#x,y,width,height
+        self.x = self.pattern[0][0]
+        self.y = self.pattern[0][1]
+        self.width = self.pattern[0][2]
+        self.height = self.pattern[0][3]
+        self.frame = -1
 
     def update(self):
         self.timer = max(0,self.timer-1)
-        if self.timer == 0:
-            self.flag_for_removal = True
+        if len(self.pattern) > 0:
+            self.frame += 1
+            pattern = self.pattern.pop(0)
+            self.x,self.y,self.width,self.height = pattern
+        else:
+            if not self.owner.prev_input["space"]:
+                self.flag_for_removal = True
+                self.owner.attacking = False
+            else: 
+                self.x = self.owner.x
+                self.y = self.owner.y-32
         
         
