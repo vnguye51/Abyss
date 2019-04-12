@@ -1,8 +1,9 @@
 TODO:
     * Player attack(multi frame)
-        * all directions
         * player cannot move while attacking
         * damage cancels the attack
+    * Queue key inputs rather than poll their current state
+    * Add enemy knockback
     * Instancing
     
 

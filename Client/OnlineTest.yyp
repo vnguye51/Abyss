@@ -90,7 +90,7 @@
             "Key": "3207644f-efea-48ab-a3a2-af39bc0e0ce8",
             "Value": {
                 "id": "e4606766-0e20-4339-bff9-eae7499aaa4d",
-                "resourcePath": "sprites\\AttackUpSprite\\AttackUpSprite.yy",
+                "resourcePath": "sprites\\AttackSprite\\AttackSprite.yy",
                 "resourceType": "GMSprite"
             }
         },
@@ -292,6 +292,14 @@
                 "id": "be89dd5f-f3f7-48e8-9774-51a09035a3ae",
                 "resourcePath": "views\\e7b9dfcb-2fd4-401c-b2bc-0e364e5ed906.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "eced3fc7-500f-4a4e-ab0a-a11a8022535f",
+            "Value": {
+                "id": "038fb959-3412-4828-b6c9-2d2730bcae53",
+                "resourcePath": "sprites\\AttackSideSprite\\AttackSideSprite.yy",
+                "resourceType": "GMSprite"
             }
         },
         {

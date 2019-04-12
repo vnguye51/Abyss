@@ -193,7 +193,14 @@ class Player(Character):
 
     def attack(self):
         # self.control = False
-        self.attack_handler.instantiate(PlayerAttack,self)
+        if self.direction == "N":
+            self.attack_handler.instantiate(PlayerAttackUp,self)
+        elif self.direction == "E":
+            self.attack_handler.instantiate(PlayerAttackRight,self)
+        elif self.direction == "S":
+            self.attack_handler.instantiate(PlayerAttackDown,self)
+        else:
+            self.attack_handler.instantiate(PlayerAttackLeft,self)
 
     def update(self):
         self.prev_x = self.x
@@ -221,9 +228,10 @@ class Attacks:
         res = {}
         for attack in self.attack_array:
             res[str(attack.id)] = {
+                "name": attack.name,
+                "frame": attack.frame,
                 "x": attack.x,
-                "y": attack.y,
-                "frame": attack.frame
+                "y": attack.y
             }
         return res
 
@@ -248,6 +256,7 @@ class EnemyAttack(Attack):
 class GoblinAttack(EnemyAttack):
     def __init__(self,attack_handler,owner,id):
         EnemyAttack.__init__(self,owner,id)
+        self.name = "None"
         self.x = owner.x 
         self.y = owner.y
         self.width = owner.width
@@ -262,9 +271,11 @@ class GoblinAttack(EnemyAttack):
             self.flag_for_removal = True
 
 class PlayerAttack(Attack):
+    ##not meant to be used by itself
     def __init__(self,attack_handler,owner,id):
         self.id = id
         self.owner = owner
+        self.name = "Attack"
         self.owner.attacking = True
         self.flag_for_removal = False
         self.timer = 2
@@ -291,4 +302,82 @@ class PlayerAttack(Attack):
                 self.x = self.owner.x
                 self.y = self.owner.y-32
         
-        
+class PlayerAttackRight(PlayerAttack):
+    def __init__(self,attack_handler,owner,id):
+        PlayerAttack.__init__(self,attack_handler,owner,id)
+        self.name = "AttackSide"
+        self.pattern = [[owner.x+9,owner.y+16,10,24],[owner.x+13,owner.y+13,20,16],[owner.x+14,owner.y+16,24,12],[owner.x+16,owner.y,20,8]]
+
+    def update(self):
+        self.timer = max(0,self.timer-1)
+        if len(self.pattern) > 0:
+            self.frame += 1
+            pattern = self.pattern.pop(0)
+            self.x,self.y,self.width,self.height = pattern
+        else:
+            if not self.owner.prev_input["space"]:
+                self.flag_for_removal = True
+                self.owner.attacking = False
+            else: 
+                self.x = self.owner.x+16
+                self.y = self.owner.y
+
+class PlayerAttackDown(PlayerAttack):
+    def __init__(self,attack_handler,owner,id):
+        PlayerAttack.__init__(self,attack_handler,owner,id)
+        self.name = "Attack"
+        self.pattern = [[owner.x-30,owner.y+9,24,10],[owner.x-13,owner.y+13,16,20],[owner.x-3,owner.y+14,12,24],[owner.x+8,owner.y+16,8,20]]
+
+    def update(self):
+        self.timer = max(0,self.timer-1)
+        if len(self.pattern) > 0:
+            self.frame += 1
+            pattern = self.pattern.pop(0)
+            self.x,self.y,self.width,self.height = pattern
+        else:
+            if not self.owner.prev_input["space"]:
+                self.flag_for_removal = True
+                self.owner.attacking = False
+            else: 
+                self.x = self.owner.x+8
+                self.y = self.owner.y+16
+
+class PlayerAttackLeft(PlayerAttack):
+    def __init__(self,attack_handler,owner,id):
+        PlayerAttack.__init__(self,attack_handler,owner,id)
+        self.name = "AttackSide"
+        self.pattern = [[owner.x-6,owner.y-30,10,24],[owner.x-23,owner.y-13,20,15],[owner.x-29,owner.y-3,24,12],[owner.x-32,owner.y+8,20,8]]
+
+    def update(self):
+        self.timer = max(0,self.timer-1)
+        if len(self.pattern) > 0:
+            self.frame += 1
+            pattern = self.pattern.pop(0)
+            self.x,self.y,self.width,self.height = pattern
+        else:
+            if not self.owner.prev_input["space"]:
+                self.flag_for_removal = True
+                self.owner.attacking = False
+            else: 
+                self.x = self.owner.x-32
+                self.y = self.owner.y+8
+
+class PlayerAttackUp(PlayerAttack):
+    def __init__(self,attack_handler,owner,id):
+        PlayerAttack.__init__(self,attack_handler,owner,id)
+        self.name = "Attack"
+        self.pattern = [[owner.x+16,owner.y-6,24,10],[owner.x+13,owner.y-23,16,20],[owner.x+6,owner.y-29,12,24],[owner.x,owner.y-32,8,20]]#x,y,width,height
+
+    def update(self):
+        self.timer = max(0,self.timer-1)
+        if len(self.pattern) > 0:
+            self.frame += 1
+            pattern = self.pattern.pop(0)
+            self.x,self.y,self.width,self.height = pattern
+        else:
+            if not self.owner.prev_input["space"]:
+                self.flag_for_removal = True
+                self.owner.attacking = False
+            else: 
+                self.x = self.owner.x
+                self.y = self.owner.y-32
