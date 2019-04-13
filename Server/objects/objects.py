@@ -277,6 +277,9 @@ class PlayerAttack(Attack):
         self.owner = owner
         self.name = "Attack"
         self.owner.attacking = True
+        self.owner.control = False
+        self.owner.xvel = 0
+        self.owner.yvel = 0
         self.flag_for_removal = False
         self.timer = 2
         self.atp = 1
@@ -315,6 +318,8 @@ class PlayerAttackRight(PlayerAttack):
             pattern = self.pattern.pop(0)
             self.x,self.y,self.width,self.height = pattern
         else:
+            if not self.owner.control:
+                self.owner.control = True
             if not self.owner.prev_input["space"]:
                 self.flag_for_removal = True
                 self.owner.attacking = False
@@ -335,6 +340,8 @@ class PlayerAttackDown(PlayerAttack):
             pattern = self.pattern.pop(0)
             self.x,self.y,self.width,self.height = pattern
         else:
+            if not self.owner.control:
+                self.owner.control = True
             if not self.owner.prev_input["space"]:
                 self.flag_for_removal = True
                 self.owner.attacking = False
@@ -355,6 +362,8 @@ class PlayerAttackLeft(PlayerAttack):
             pattern = self.pattern.pop(0)
             self.x,self.y,self.width,self.height = pattern
         else:
+            if not self.owner.control:
+                self.owner.control = True
             if not self.owner.prev_input["space"]:
                 self.flag_for_removal = True
                 self.owner.attacking = False
@@ -375,6 +384,8 @@ class PlayerAttackUp(PlayerAttack):
             pattern = self.pattern.pop(0)
             self.x,self.y,self.width,self.height = pattern
         else:
+            if not self.owner.control:
+                self.owner.control = True
             if not self.owner.prev_input["space"]:
                 self.flag_for_removal = True
                 self.owner.attacking = False
