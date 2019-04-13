@@ -54,43 +54,51 @@ class Goblin(Enemy):
         self.momentum = 999
         self.weight = 10
         self.vfx_timer = 10
+        self.stuntimer = 0
         self.invuln_to_attacks = []
         self.flag_for_removal = False
         self.attack_handler = attack_handler
         self.attack_handler.instantiate(GoblinAttack,self)
 
     def update(self):
-        # self.xvel = 0
-        # self.yvel = 0
         self.prev_x = self.x
         self.prev_y = self.y
-        if self.pattern == 1:
-            if self.timer == 0:
-                self.timer = 30
+
+        if self.stuntimer:
+            #stunned so normal movement doesn't apply
+            self.stuntimer = max(self.stuntimer-1,0)
+            if self.stuntimer == 0:
                 self.xvel = 0
                 self.yvel = 0
-                self.pattern = 2
         else:
-            if self.timer == 0:
-                self.pattern = 1
-                self.xvel = 1*randint(-1,1)
-                self.yvel = 1*randint(-1,1)
-                if self.xvel > 0:
-                    self.frame = 0
-                elif self.xvel < 0:
-                    self.frame = 2
-                elif self.yvel > 0:
-                    self.frame = 1
-                else:
-                    self.frame = 3
-                self.timer = 60
-        self.timer = max(0,self.timer-1)
+            #if not stunned follow normal movement
+            if self.pattern == 1:
+                if self.timer == 0:
+                    self.timer = 30
+                    self.xvel = 0
+                    self.yvel = 0
+                    self.pattern = 2
+            else:
+                if self.timer == 0:
+                    self.pattern = 1
+                    self.xvel = 1*randint(-1,1)
+                    self.yvel = 1*randint(-1,1)
+                    if self.xvel > 0:
+                        self.frame = 0
+                    elif self.xvel < 0:
+                        self.frame = 2
+                    elif self.yvel > 0:
+                        self.frame = 1
+                    else:
+                        self.frame = 3
+                    self.timer = 60
+            self.timer = max(0,self.timer-1)
         if self.vfx_timer > 0:
             self.vfx_timer = max(0,self.timer-1)
             if self.vfx_timer == 0:
                 self.vfx = 0
-        self.x += self.xvel
-        self.y += self.yvel
+        self.x += round(self.xvel)
+        self.y += round(self.yvel)
 
         for attack in self.invuln_to_attacks:
             attack[1] = max(0,attack[1]-1)
@@ -103,6 +111,8 @@ class Goblin(Enemy):
         if self.hp <= 0:
             self.flag_for_removal = True
 
+
+
     def receive_attack(self,attack):
         if isinstance(attack,PlayerAttack):
             for invuln in self.invuln_to_attacks:
@@ -113,6 +123,18 @@ class Goblin(Enemy):
             self.vfx = 1
             self.vfx_timer = 15
             self.invuln_to_attacks.append([attack,15])
+            self.knockback(attack)
+
+    def knockback(self,attack):
+        #get the unit vector between the unit and the attack's owner
+        vec = [self.x-attack.owner.x,self.y-attack.owner.y]
+        magn = ((self.x-attack.owner.x)**2+(self.y-attack.owner.y)**2)**0.5
+        unitv = list(map(lambda x: x/magn,vec))
+        self.xvel = unitv[0]*8
+        self.yvel = unitv[1]*8
+        self.stuntimer = 4
+
+
 class Players:
     def __init__(self):
         self.player_array = []
