@@ -170,6 +170,8 @@ class Character:
         self.attacktimer = 5
         self.attack_handler = attack_handler
         self.prev_input = {}
+        self.stuntimer = 0
+        self.invuln_timer = 0
         self.flag_for_removal = False
 
 class Player(Character):
@@ -180,7 +182,8 @@ class Player(Character):
         
 
     def player_input(self,input_map):
-        if self.control:
+
+        if self.control and self.stuntimer == 0:
             change_direction = True
             if input_map["left"]+input_map["right"]+input_map["down"]+input_map["up"] > 1 or self.attacking:
                 change_direction = False
@@ -225,18 +228,40 @@ class Player(Character):
             self.attack_handler.instantiate(PlayerAttackLeft,self)
 
     def update(self):
+        if self.stuntimer:
+            self.stuntimer = max(self.stuntimer-1,0)
+            self.control = False
+            if self.stuntimer == 0:
+                self.xvel = 0
+                self.yvel = 0
+                self.control = True
+        if self.invuln_timer:
+            self.invuln_timer = max(self.invuln_timer-1,0)
+            
         self.prev_x = self.x
         self.prev_y = self.y
         self.momentum = self.weight+abs(self.xvel)+abs(self.yvel)
-        self.x += self.xvel
-        self.y += self.yvel
+        self.x += round(self.xvel)
+        self.y += round(self.yvel)
         if self.hp <= 0:
             self.flag_for_removal = True
 
 
     def receive_attack(self,attack):
         if isinstance(attack,EnemyAttack):
-            self.hp -= attack.atp
+            if self.invuln_timer <= 0:
+                self.hp -= attack.atp
+                self.knockback(attack)
+                self.invuln_timer = 10
+
+    def knockback(self,attack):
+        #get the unit vector between the unit and the attack's owner
+        vec = [self.x-attack.owner.x,self.y-attack.owner.y]
+        magn = ((self.x-attack.owner.x)**2+(self.y-attack.owner.y)**2)**0.5
+        unitv = list(map(lambda x: x/magn,vec))
+        self.xvel = unitv[0]*8
+        self.yvel = unitv[1]*8
+        self.stuntimer = 4
 
 
 class Attacks:

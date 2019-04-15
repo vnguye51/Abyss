@@ -1,9 +1,15 @@
 TODO:
     * Player attack(multi frame)
-        * player cannot move while attacking
         * damage cancels the attack
     * Queue key inputs rather than poll their current state
-    * Add enemy knockback
+    * Goblin swordsman
+    * Item drop system
+    * Shopkeeper
+    * Goblin Mage
+    * Rammer boss
+    * Add player and shader
+    * Login system
+    * Chat/party system
     * Instancing
     
 
@@ -26,6 +32,7 @@ THINGS TO THINK ABOUT ADDING:
     * Change collision resolution to be vector based
 
 BUGS:
+* Sometimes attacks will not spawn(client side?)
 * if player spawns on enemy in corner the collision breaks
 * diagonal movement pushing another player into a corner breaks collision
 * diagonal movement onto a wall catches the player if moving into a north or south wall
