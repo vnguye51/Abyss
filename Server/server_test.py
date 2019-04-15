@@ -138,6 +138,9 @@ async def game_loop():
             item.update()
         items.item_array = list(filter(lambda item: not item.flag_for_removal,items.item_array))
 
+        #Handle requests for item pickups
+        spatial_map.resolve_item_pickups()
+
         #Resolve any attacks
         spatial_map.resolve_attacks()
 

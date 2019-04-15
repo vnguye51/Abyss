@@ -221,7 +221,6 @@ class Player(Character):
                 self.attack()
 
             if input_map["Z"] == 1:
-                print("REQUEST ITEM!")
                 self.request_item = True
             else:
                 self.request_item = False

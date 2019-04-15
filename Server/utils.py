@@ -84,7 +84,7 @@ class SpatialMap:
                 self.spatial_map[key]["items"].append(item)
         return res
 
-    def resolve_item_pickups(self,players):
+    def resolve_item_pickups(self):
         keys = self.spatial_map.keys()
 
         #Scan through the spatial map and check for any collisions between players and items
