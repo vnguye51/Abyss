@@ -5,7 +5,7 @@ class SpatialMap:
         #The first layer should be the tilemap with collidables
         self.width = tiled_json["width"]
         self.height = tiled_json["height"]
-        self.spatial_map = {(x,y):{"objects":[],"attacks":[]} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
+        self.spatial_map = {(x,y):{"objects":[],"attacks":[], "items": [], "players": []} for x in range(0,self.width*16,16) for y in range(0,self.height*16,16)}
         objects = tiled_json["layers"][0]["objects"]
         self.tiles = []
         for obj in objects:
@@ -13,26 +13,33 @@ class SpatialMap:
 
 
 
-    def update_map(self,players,enemies,attacks):
+    def update_map(self,players,enemies,attacks,items):
         """Update map should be called each tick. Takes in the list of all game objects and places them into the spatial map"""
         ##Reset map
-        ##Might be more efficient to remove and add players when they are moved rather than all at once
         objects = players.player_array + enemies.enemy_array + self.tiles 
+        players = players.player_array
         attacks = attacks.attack_array
+        items = items.item_array
 
         for key in self.spatial_map.keys():
             self.spatial_map[key]["objects"] = []
             self.spatial_map[key]["attacks"] = []
+            self.spatial_map[key]["players"] = []
+            self.spatial_map[key]["items"] = []
 
         #For each object place a reference to them inside each tile they overlap
         for obj in objects:
             self.update_single_obj(obj)
         
+        for player in players:
+            self.update_single_player(player)
+
         for attack in attacks:
             self.update_single_att(attack)
+
+        for item in items:
+            self.update_single_item(item)
             
-            
-         
     def update_single_obj(self,obj):
         res = []
         x_floored_16 = obj.x-obj.x%16
@@ -42,6 +49,17 @@ class SpatialMap:
                 key = (x,y)
                 res.append(key)
                 self.spatial_map[key]["objects"].append(obj)
+        return res
+
+    def update_single_player(self,player):
+        res = []
+        x_floored_16 = player.x-player.x%16
+        y_floored_16 = player.y-player.y%16
+        for x in range(x_floored_16,player.x+player.width,16):
+            for y in range(y_floored_16,player.y+player.height,16):
+                key = (x,y)
+                res.append(key)
+                self.spatial_map[key]["players"].append(player)
         return res
 
     def update_single_att(self,att):
@@ -55,6 +73,32 @@ class SpatialMap:
                 self.spatial_map[key]["attacks"].append(att)
         return res
 
+    def update_single_item(self,item):
+        res = [] 
+        x_floored_16 = item.x-item.x%16
+        y_floored_16 = item.y-item.y%16
+        for x in range(x_floored_16,item.x+item.width,16):
+            for y in range(y_floored_16,item.y+item.height,16):
+                key = (x,y)
+                res.append(key)
+                self.spatial_map[key]["items"].append(item)
+        return res
+
+    def resolve_item_pickups(self,players):
+        keys = self.spatial_map.keys()
+
+        #Scan through the spatial map and check for any collisions between players and items
+        for key in keys:
+            items = self.spatial_map[key]["items"]
+            players = self.spatial_map[key]["players"]
+            for i in range(0, len(items)):
+                for j in range(0,len(players)):
+                    ##Player must be requesting to pickup an item and the item must not already be flagged for removal and the two must be colliding
+                    if players[j].request_item and items[i].flag_for_removal == False and AABB(items[i],players[j]):
+                        items[i].pickup(players[j])
+                        players[j].request_item = False
+                            
+
     def resolve_attacks(self):
         keys = self.spatial_map.keys()
         for key in keys:
@@ -64,8 +108,6 @@ class SpatialMap:
                 for j in range(0,len(objects)):
                     if AABB(attacks[i],objects[j]):
                         objects[j].receive_attack(attacks[i])
-            
-
 
     def get_collisions(self,collisions,keys):
         #Returns list of colliding objects

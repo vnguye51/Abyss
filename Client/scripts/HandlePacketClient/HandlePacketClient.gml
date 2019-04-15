@@ -50,7 +50,22 @@ for(var i=0; i<ds_list_size(split_data); i++){
 				key = ds_map_find_next(enemies,key)
 			}
 
+			
+			
+			//Instantiate all items
+			items = message[? "items"]
+			key = ds_map_find_first(items)
+			for (var i=0; i<ds_map_size(items); i++) {
+				var item_info = items[? key]
+				var item = instance_create_depth(item_info[? "x"],item_info[? "y"],0,asset_get_index(item_info[? "name"]))
+				item.item_id = key
+				ItemObjMap[? key] = enemy
+				key = ds_map_find_next(items,key)
+			}
+			
 			break
+			
+			
 		//case 1:	
 		////A new player connected
 		//	show_debug_message("A new player connected")
@@ -78,6 +93,7 @@ for(var i=0; i<ds_list_size(split_data); i++){
 			//show_debug_message("updating player positions")
 			var message = data[? "message"]
 			players = message[? "player_data"]
+			
 			enemies = message[? "enemy_data"]
 			key = ds_map_find_first(enemies)
 			for (var i=0; i<ds_map_size(enemies); i++) {
@@ -89,6 +105,20 @@ for(var i=0; i<ds_list_size(split_data); i++){
 				}
 				key = ds_map_find_next(enemies,key)
 			}
+			
+			items = message[? "item_data"]
+			key = ds_map_find_first(items)
+			for (var i=0; i<ds_map_size(items); i++) {
+				var item_info = items[? key]
+				if(is_undefined(ItemObjMap[? key])){
+					var item = instance_create_depth(item_info[? "x"],item_info[? "y"],0,asset_get_index(item_info[? "name"]))
+					ItemObjMap[? key] = enemy
+					item.item_id = key
+				}
+				key = ds_map_find_next(items,key)
+			}
+			
+			
 			attacks = message[? "attack_data"]
 			break
 	}	

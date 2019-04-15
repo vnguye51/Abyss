@@ -145,7 +145,8 @@ class Players:
             res[str(player.id)] = {
                 "x": player.x,
                 "y": player.y,
-                "frame": player.frame
+                "frame": player.frame,
+                "items": player.items
             }
         return res
 
@@ -173,6 +174,10 @@ class Character:
         self.stuntimer = 0
         self.invuln_timer = 0
         self.flag_for_removal = False
+        self.request_item = False
+        self.items = {
+            "Gold" : 0
+        }
 
 class Player(Character):
     def __init__(self,x,y,id,writer,attack_handler):
@@ -214,6 +219,13 @@ class Player(Character):
                 self.yvel = 0
             if input_map["space_pressed"] == 1:
                 self.attack()
+
+            if input_map["Z"] == 1:
+                print("REQUEST ITEM!")
+                self.request_item = True
+            else:
+                self.request_item = False
+
         self.prev_input = input_map
 
     def attack(self):

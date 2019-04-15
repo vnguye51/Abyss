@@ -6,6 +6,8 @@ if (players){
 		var player_info = players[? key]
 		if (key == client_id){
 			draw_sprite(PlayerSprite,player_info[? "frame"],player_info[? "x"],player_info[? "y"],)
+			var items = player_info[? "items"]
+			draw_text(200,200,"Gold: " + string(items[? "Gold"]))
 		}
 		else{
 			draw_sprite(OtherPlayerSprite,player_info[? "frame"],player_info[? "x"],player_info[? "y"],)

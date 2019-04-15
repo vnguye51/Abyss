@@ -4,6 +4,8 @@ key_inputs[? "down"] = keyboard_check(vk_down);
 key_inputs[? "up"] = keyboard_check(vk_up)
 key_inputs[? "space_pressed"] = keyboard_check_pressed(vk_space);
 key_inputs[? "space"] = keyboard_check(vk_space)
+key_inputs[? "Z"] = keyboard_check(ord("Z"))
+show_debug_message(key_inputs[? "Z"])
 
 message_id = 1
 var output_data = json_encode(key_inputs)
