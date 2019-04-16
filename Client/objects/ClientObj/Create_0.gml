@@ -33,10 +33,18 @@ else
 ping = -1
 result = -1
 
-	
-buffer = buffer_create(1024, buffer_fixed, 1);
+chatting = false
+
+buffer = buffer_create(2048, buffer_fixed, 1);
 alarm[0] = room_speed
+
+packet_wrapper = ds_map_create()
+messages = ds_list_create()
+ds_map_add_list(packet_wrapper,"messages",messages)
+
 key_inputs = ds_map_create()
+key_inputs[? "message_id"] = 1
+
 ds_map_add(key_inputs,"left",0)
 ds_map_add(key_inputs,"right",0)
 ds_map_add(key_inputs,"up",0)

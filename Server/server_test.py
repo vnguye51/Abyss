@@ -70,7 +70,18 @@ def on_disconnect(disc_player):
             delete_flag = i
 
     players.player_array.pop(delete_flag)
-            
+
+def broadcast_message(player_id,message):
+    global players
+    raw_message ={
+        "id" : 4,
+        "message": str(player_id) +": "+ message
+    }
+    encoded_message = json.dumps(raw_message).encode()
+    
+    for player in players.player_array:
+        player.writer.write(encoded_message)
+
     
 def export_objects(player_data,enemy_data,attack_data,item_data):
     """Encode a message containing player and enemy info"""
@@ -101,8 +112,12 @@ async def echo_server(reader, writer):
             ##main loop for socket
             data = await reader.read(1024)  # Max number of bytes to read
             decoded_data = data.decode("utf-8").split("\x00")
-            inputs = json.loads(decoded_data[0])
-            player.player_input(inputs)
+            client_message = json.loads(decoded_data[0])["messages"]
+            for message in client_message:
+                if message["message_id"] == 1:
+                    player.player_input(message)
+                elif message["message_id"] == 2:
+                    broadcast_message(player.id,message["message"])
             if not data:
                 print('breaking connection to %s' % addr[1])
                 break

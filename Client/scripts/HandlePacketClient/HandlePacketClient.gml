@@ -121,5 +121,13 @@ for(var i=0; i<ds_list_size(split_data); i++){
 			
 			attacks = message[? "attack_data"]
 			break
+			
+		case 4:
+			var message = data[? "message"]
+			ds_list_add(Chatbox.messages,message)
+			if(ds_list_size(Chatbox.messages) > 7 ){
+				ds_list_delete(Chatbox.messages,0)
+			}
+			break
 	}	
 }

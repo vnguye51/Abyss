@@ -11,7 +11,13 @@ TODO:
     * Login system
     * Chat/party system
     * Instancing
+    * Migrate item drops/char info, etc to database
     
+Chat system:
+    * Simple chat system. 
+    1. Client sends message to game server. 
+    2. Server broadcasts message to all other players
+    3. Server logs message to SQL server
 
 Collision Resolution: Stack system
     * Run one pass through all collisions and call the collision method() between each member
@@ -36,3 +42,4 @@ BUGS:
 * if player spawns on enemy in corner the collision breaks
 * diagonal movement pushing another player into a corner breaks collision
 * diagonal movement onto a wall catches the player if moving into a north or south wall
+* sometimes enemy -> player collision does not register
