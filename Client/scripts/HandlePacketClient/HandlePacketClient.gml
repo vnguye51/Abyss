@@ -1,14 +1,16 @@
 /// Client Script: HandlePacketClient
 
 
-var buffer,raw_data,split_data
+var buffer,raw_data,decoded_data
 buffer = argument[0];
 raw_data = buffer_read( buffer, buffer_string );
 show_debug_message("Received packet: " + raw_data);
-split_data = PacketSplitter(raw_data)
+decoded_data = json_decode(raw_data)
+decoded_data = decoded_data[? "default"]
 
-for(var i=0; i<ds_list_size(split_data); i++){
-	var data = json_decode(split_data[|i])
+
+for(var i=0; i<ds_list_size(decoded_data); i++){
+	var data = decoded_data[| i]
 	switch (data[? "id"]) {
 		case 0:
 		//First connect
@@ -59,7 +61,7 @@ for(var i=0; i<ds_list_size(split_data); i++){
 				var item_info = items[? key]
 				var item = instance_create_depth(item_info[? "x"],item_info[? "y"],0,asset_get_index(item_info[? "name"]))
 				item.item_id = key
-				ItemObjMap[? key] = enemy
+				ItemObjMap[? key] = item
 				key = ds_map_find_next(items,key)
 			}
 			

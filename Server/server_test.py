@@ -22,19 +22,19 @@ enemies.instantiate(Goblin, 64, 64, attacks)
 id_assignment = 0
 spatial_map = SpatialMap(map_json)
 
-def first_connect(writer,client_id):
+
+def first_connect(player):
     global players
     message ={
         "id": 0,
         "message": {
-            "client_id": client_id,
+            "client_id": player.id,
             "players": players.get_data(),
             "enemies": enemies.get_data(),
             "items": items.get_data()
         }
     }
-    encoded_message = json.dumps(message).encode()
-    writer.write(encoded_message)
+    player.write_to_buffer(message)
 
 def add_player(new_player):
     #Send a message to all clients that are not the new player
@@ -47,10 +47,9 @@ def add_player(new_player):
             "y": new_player.y
         }
     }
-    encoded_message = json.dumps(message).encode()
     for player in players.player_array:
         if player.id != new_player.id:
-            player.writer.write(encoded_message)
+            player.write_to_buffer(message)
 
 def on_disconnect(disc_player):
     global players
@@ -60,15 +59,13 @@ def on_disconnect(disc_player):
             "player_id": disc_player.id
         }
     }
-    encoded_message = json.dumps(message).encode()
     #Send a message to all clients that are not the disconnected player
     delete_flag = -1
     for i,player in enumerate(players.player_array):
         if player.id != disc_player.id:
-            player.writer.write(encoded_message)
+            player.write_to_buffer(message)
         else:
             delete_flag = i
-
     players.player_array.pop(delete_flag)
 
 def broadcast_message(player_id,message):
@@ -77,13 +74,12 @@ def broadcast_message(player_id,message):
         "id" : 4,
         "message": str(player_id) +": "+ message
     }
-    encoded_message = json.dumps(raw_message).encode()
-    
+
     for player in players.player_array:
-        player.writer.write(encoded_message)
+        player.write_to_buffer(raw_message)
 
     
-def export_objects(player_data,enemy_data,attack_data,item_data):
+def export_objects(player,player_data,enemy_data,attack_data,item_data):
     """Encode a message containing player and enemy info"""
     data = {
         "id": 3,
@@ -94,7 +90,7 @@ def export_objects(player_data,enemy_data,attack_data,item_data):
             "item_data": item_data
         }
     }
-    return json.dumps(data).encode()
+    player.write_to_buffer(data)
 
 async def echo_server(reader, writer):
     global id_assignment, players
@@ -105,8 +101,9 @@ async def echo_server(reader, writer):
     id_assignment += 1
     #append player to the list of all players
     players.player_array.append(player)
-    first_connect(writer,player.id)
     add_player(player)
+    first_connect(player)
+    
     while True:
         try:
             ##main loop for socket
@@ -121,7 +118,8 @@ async def echo_server(reader, writer):
             if not data:
                 print('breaking connection to %s' % addr[1])
                 break
-            writer.write(export_objects(players.get_data(),enemies.get_data(),attacks.get_data(),items.get_data()))
+            export_objects(player,players.get_data(),enemies.get_data(),attacks.get_data(),items.get_data())
+            player.export_packet()
             await writer.drain()
         except ConnectionError:
             on_disconnect(player)

@@ -166,6 +166,7 @@ class Character:
         self.height = 16
         self.id = id
         self.writer = writer
+        self.buffer = []
         self.direction = "N" #NSWE cardinal directions
         self.frame = 0
         self.attacktimer = 5
@@ -185,6 +186,13 @@ class Player(Character):
         self.hp = 10
         self.attacking = False
         
+    def write_to_buffer(self,message):
+        self.buffer.append(message)
+
+    def export_packet(self):
+        encoded_message = json.dumps(self.buffer).encode()
+        self.writer.write(encoded_message)
+        self.buffer = []
 
     def player_input(self,input_map):
 
