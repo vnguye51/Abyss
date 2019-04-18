@@ -1,0 +1,7 @@
+display_set_gui_maximize(2,2,0,0)
+draw_sprite(HealthBarBackSprite,0,4,4)
+draw_sprite(HealthBarSprite,0,4,4)
+draw_sprite(HealthBarFrontSprite,0,4,4)
+draw_sprite(ExpBarBackSprite,0,4,9)
+draw_sprite(ExpBarSprite,0,4,9)
+draw_sprite(ExpBarTopSprite,0,4,9)

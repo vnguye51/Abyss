@@ -17,6 +17,7 @@ PlayerObjMap = ds_map_create();
 ItemObjMap = ds_map_create();
 
 socket = network_create_socket(network_socket_tcp);
+//window_set_size(800,480)
 show_debug_message("creating socket")
 client_id = -1
 var server = network_connect_raw(socket , "127.0.0.1", 8080);

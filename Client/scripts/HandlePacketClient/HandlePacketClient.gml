@@ -42,15 +42,15 @@ for(var i=0; i<ds_list_size(decoded_data); i++){
 			//}
 			
 			//Instantiate all enemies
-			enemies = message[? "enemies"]
-			key = ds_map_find_first(enemies)
-			for (var i=0; i<ds_map_size(enemies); i++) {
-				var enemy_info = enemies[? key]
-				var enemy = instance_create_depth(enemy_info[? "x"],enemy_info[? "y"],0,asset_get_index(enemy_info[? "name"]))
-				enemy.enemy_id = key
-				EnemyObjMap[? key] = enemy
-				key = ds_map_find_next(enemies,key)
-			}
+			//enemies = message[? "enemies"]
+			//key = ds_map_find_first(enemies)
+			//for (var i=0; i<ds_map_size(enemies); i++) {
+			//	var enemy_info = enemies[? key]
+			//	var enemy = instance_create_depth(enemy_info[? "x"],enemy_info[? "y"],0,asset_get_index(enemy_info[? "name"]))
+			//	enemy.enemy_id = key
+			//	EnemyObjMap[? key] = enemy
+			//	key = ds_map_find_next(enemies,key)
+			//}
 
 			
 			
@@ -95,6 +95,24 @@ for(var i=0; i<ds_list_size(decoded_data); i++){
 			//show_debug_message("updating player positions")
 			var message = data[? "message"]
 			players = message[? "player_data"]
+			key = ds_map_find_first(players)
+			for (var i=0; i<ds_map_size(players); i++) {
+				var player_info = players[? key]
+				if(is_undefined(PlayerObjMap[? key])){
+					if (key != string(client_id)) {
+						var other_player = instance_create_depth(player_info[? "x"],player_info[? "y"],0,OtherPlayerObj)
+						PlayerObjMap[? key] = other_player
+						other_player.player_id = key
+					}
+					else{
+						var player = instance_create_depth(player_info[? "x"],player_info[? "y"],0,PlayerObj)
+						PlayerObjMap[? key] = player
+						player.player_id = key
+					}
+				}
+				key = ds_map_find_next(players,key)
+			}
+			
 			
 			enemies = message[? "enemy_data"]
 			key = ds_map_find_first(enemies)
@@ -126,9 +144,9 @@ for(var i=0; i<ds_list_size(decoded_data); i++){
 			
 		case 4:
 			var message = data[? "message"]
-			ds_list_add(Chatbox.messages,message)
-			if(ds_list_size(Chatbox.messages) > 7 ){
-				ds_list_delete(Chatbox.messages,0)
+			ds_list_add(ChatObj.messages,message)
+			if(ds_list_size(ChatObj.messages) > 7 ){
+				ds_list_delete(ChatObj.messages,0)
 			}
 			break
 	}	

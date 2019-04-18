@@ -1,7 +1,6 @@
 TODO:
     * Player attack(multi frame)
         * damage cancels the attack
-    * Queue key inputs rather than poll their current state
     * Goblin swordsman
     * Item drop system
     * Shopkeeper
@@ -9,9 +8,12 @@ TODO:
     * Rammer boss
     * Add player and shader
     * Login system
-    * Chat/party system
+    * Chat system
     * Instancing
     * Migrate item drops/char info, etc to database
+
+    * Stuff to add for fun:
+        * Twitch emotes to chat system
     
 Chat system:
     * Simple chat system. 

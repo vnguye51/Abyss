@@ -151,6 +151,22 @@
             }
         },
         {
+            "Key": "3c8f1f12-d3ba-4099-abb6-bf3265ef22a4",
+            "Value": {
+                "id": "88453d2b-0e73-4738-bf08-380ff6011546",
+                "resourcePath": "views\\3c8f1f12-d3ba-4099-abb6-bf3265ef22a4.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "4aa22799-8b08-4ffc-ad88-1e42e46e158d",
+            "Value": {
+                "id": "eac157fe-fc29-4847-9293-bd413c8b7d1a",
+                "resourcePath": "views\\4aa22799-8b08-4ffc-ad88-1e42e46e158d.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
             "Key": "4e128e5f-cf54-4015-b04c-43470e5cb121",
             "Value": {
                 "id": "a734d219-05ac-4351-8b96-f92345314260",
@@ -199,6 +215,38 @@
             }
         },
         {
+            "Key": "5fe91ec2-9518-4f19-b3f4-b9676149bc16",
+            "Value": {
+                "id": "400623eb-8d5f-4da3-b9eb-8b52f20f4eab",
+                "resourcePath": "sprites\\HealthBarFrontSprite\\HealthBarFrontSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "60dc3078-7a3d-41e5-9b4d-c0fc1f81f5d1",
+            "Value": {
+                "id": "383d497d-8d5d-4c35-9317-654a810864e2",
+                "resourcePath": "sprites\\ExpBarBackSprite\\ExpBarBackSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "671e933b-4e1e-4eb6-9784-8075b9eaf5d4",
+            "Value": {
+                "id": "dd076f9d-d43d-419f-b187-5c331f5f347b",
+                "resourcePath": "views\\671e933b-4e1e-4eb6-9784-8075b9eaf5d4.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "6ddc899b-a2c5-4fae-a547-8795cfec48cb",
+            "Value": {
+                "id": "8459cc42-257f-4dfe-ac75-e80fd95849e3",
+                "resourcePath": "objects\\StatBarsObj\\StatBarsObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "6f61d9d2-f2ae-4c97-a5c5-8920c0da661e",
             "Value": {
                 "id": "570eece8-e80c-4a84-bfed-b737542e7156",
@@ -239,11 +287,11 @@
             }
         },
         {
-            "Key": "7f6de3bb-02d1-482c-8ac2-8ee5e13d57bf",
+            "Key": "8237202c-1726-4e46-8464-a84110b11b85",
             "Value": {
-                "id": "7a00202a-8890-4c23-b09a-71e8f5586ff0",
-                "resourcePath": "objects\\Chatbox\\Chatbox.yy",
-                "resourceType": "GMObject"
+                "id": "3900ae8b-32ec-4af2-8f0a-58f85d93cc6d",
+                "resourcePath": "sprites\\ExpBarTopSprite\\ExpBarTopSprite.yy",
+                "resourceType": "GMSprite"
             }
         },
         {
@@ -259,6 +307,14 @@
             "Value": {
                 "id": "df752647-cd87-47d1-b17c-6e4ebb73c773",
                 "resourcePath": "sprites\\OtherPlayerSprite\\OtherPlayerSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "958f4925-56e0-498a-befb-05626eedd940",
+            "Value": {
+                "id": "bcd99c2d-2623-42e7-afa7-98e6c198c122",
+                "resourcePath": "sprites\\HealthBarBackSprite\\HealthBarBackSprite.yy",
                 "resourceType": "GMSprite"
             }
         },
@@ -279,6 +335,14 @@
             }
         },
         {
+            "Key": "9bf4f103-f60b-4bfe-a088-005c2f56ebc1",
+            "Value": {
+                "id": "22463e43-254b-45bf-8f5f-78d67470a4a3",
+                "resourcePath": "views\\9bf4f103-f60b-4bfe-a088-005c2f56ebc1.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
             "Key": "a8567c83-9414-4088-b9fa-6c4e22a5b53b",
             "Value": {
                 "id": "d6d5b979-8a8d-4e4c-a8f3-bffd5f8cf7b7",
@@ -295,6 +359,14 @@
             }
         },
         {
+            "Key": "b4501b63-675c-4498-b103-2ed2e2a195a2",
+            "Value": {
+                "id": "a7d1ea1a-04c1-4318-8912-f98d05838b1b",
+                "resourcePath": "sprites\\ExpBarSprite\\ExpBarSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "c0d64fe4-9ace-480b-b5e3-6ab7bb3264ff",
             "Value": {
                 "id": "6c70fda0-1d23-4f23-bd8c-e29f709667c7",
@@ -308,6 +380,14 @@
                 "id": "61588b19-0c75-4d56-9383-771b3ab41fe4",
                 "resourcePath": "views\\c17c6fb7-2aa5-4b4d-b5d2-a9a425f048a2.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "c59227d5-f8df-4d8d-b6ef-c56f5b4bc98b",
+            "Value": {
+                "id": "4baa5813-e80d-4cdf-8646-bf32f588a517",
+                "resourcePath": "objects\\ChatObj\\ChatObj.yy",
+                "resourceType": "GMObject"
             }
         },
         {
@@ -351,6 +431,14 @@
             }
         },
         {
+            "Key": "d604a55e-457a-40b1-8cc7-322bb84d1f09",
+            "Value": {
+                "id": "391ce840-e47f-4cb9-aa1d-32683b3fae20",
+                "resourcePath": "sprites\\HealthBarSprite\\HealthBarSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
             "Key": "e1f29640-67a8-4ac9-a371-236f0bbc38a5",
             "Value": {
                 "id": "c10e6b18-dd0f-45cd-bcc3-e808ec83abb2",
@@ -367,19 +455,19 @@
             }
         },
         {
+            "Key": "e849a592-b771-48db-b4e4-d94c5f916a71",
+            "Value": {
+                "id": "3f038229-d000-43ce-a654-52afcc75d283",
+                "resourcePath": "views\\e849a592-b771-48db-b4e4-d94c5f916a71.yy",
+                "resourceType": "GMFolder"
+            }
+        },
+        {
             "Key": "eced3fc7-500f-4a4e-ab0a-a11a8022535f",
             "Value": {
                 "id": "038fb959-3412-4828-b6c9-2d2730bcae53",
                 "resourcePath": "sprites\\AttackSideSprite\\AttackSideSprite.yy",
                 "resourceType": "GMSprite"
-            }
-        },
-        {
-            "Key": "ee4a6a4a-57cb-429d-a2d7-117257ca0a8d",
-            "Value": {
-                "id": "216d4de4-2227-4ff0-9957-a5a806a42ecc",
-                "resourcePath": "objects\\ChatInput\\ChatInput.yy",
-                "resourceType": "GMObject"
             }
         },
         {

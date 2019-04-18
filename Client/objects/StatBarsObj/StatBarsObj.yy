@@ -1,28 +1,18 @@
 {
-    "id": "7f6de3bb-02d1-482c-8ac2-8ee5e13d57bf",
+    "id": "6ddc899b-a2c5-4fae-a547-8795cfec48cb",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "Chatbox",
+    "name": "StatBarsObj",
     "eventList": [
         {
-            "id": "dca9c52c-9e77-4567-9900-54c2a0e8fc8b",
+            "id": "1e697fc1-9755-44f9-ae5a-4bd271c7d624",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
             "enumb": 64,
             "eventtype": 8,
-            "m_owner": "7f6de3bb-02d1-482c-8ac2-8ee5e13d57bf"
-        },
-        {
-            "id": "f0be3e82-00be-43ce-9815-c12b86c76b39",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 0,
-            "eventtype": 0,
-            "m_owner": "7f6de3bb-02d1-482c-8ac2-8ee5e13d57bf"
+            "m_owner": "6ddc899b-a2c5-4fae-a547-8795cfec48cb"
         }
     ],
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",
@@ -43,6 +33,6 @@
     "physicsStartAwake": true,
     "properties": null,
     "solid": false,
-    "spriteId": "57bfa08d-ec25-40c4-996f-62227905419e",
+    "spriteId": "00000000-0000-0000-0000-000000000000",
     "visible": true
 }
