@@ -4,7 +4,7 @@
 var buffer,raw_data,decoded_data
 buffer = argument[0];
 raw_data = buffer_read( buffer, buffer_string );
-show_debug_message("Received packet: " + raw_data);
+//show_debug_message("Received packet: " + raw_data);
 decoded_data = json_decode(raw_data)
 decoded_data = decoded_data[? "default"]
 

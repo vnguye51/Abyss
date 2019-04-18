@@ -9,4 +9,3 @@ else{
 	ds_map_delete(players,player_id)
 	instance_destroy(self)
 }
-

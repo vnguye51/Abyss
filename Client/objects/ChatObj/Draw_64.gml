@@ -1,4 +1,3 @@
-show_debug_message(window_get_height())
 display_set_gui_maximize(1,1,0,window_get_height()-98)
 
 draw_sprite(ChatboxSprite,0,4,0)
