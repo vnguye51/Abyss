@@ -1,4 +1,4 @@
-if not chatting{
+if not WindowsController.chatting{
 	key_inputs[? "right"] = keyboard_check(vk_right);
 	key_inputs[? "left"] = keyboard_check(vk_left);
 	key_inputs[? "down"] = keyboard_check(vk_down);

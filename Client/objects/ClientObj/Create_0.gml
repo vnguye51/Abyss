@@ -34,9 +34,6 @@ else
 ping = -1
 result = -1
 
-chatting = false
-inventory = false
-
 buffer = buffer_create(2048, buffer_fixed, 1);
 alarm[0] = room_speed
 
@@ -52,3 +49,7 @@ ds_map_add(key_inputs,"right",0)
 ds_map_add(key_inputs,"up",0)
 ds_map_add(key_inputs,"down",0)
 ds_map_add(key_inputs,"space",0)
+
+instance_create_depth(0,0,0,WindowsController)
+
+

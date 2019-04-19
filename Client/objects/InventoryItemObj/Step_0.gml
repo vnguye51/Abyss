@@ -1,0 +1,1 @@
+depth = InventoryObj.depth -1

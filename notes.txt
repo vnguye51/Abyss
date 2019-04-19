@@ -1,3 +1,6 @@
+In Progress:
+    * Destroy all 'inventory item' instances when deleting Inventory Obj
+
 TODO:
     * Player attack(multi frame)
         * damage cancels the attack

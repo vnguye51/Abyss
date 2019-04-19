@@ -7,7 +7,7 @@ for(var i=0;i<ds_list_size(messages);i++){
 	draw_text(6,2+10*i,messages[| i])
 }
 
-if(ClientObj.chatting){
+if(WindowsController.chatting){
 	draw_sprite(ChatInputSprite,0,5,80)
 	if(blinker){
 		draw_text(6,82,keyboard_string + "|")
