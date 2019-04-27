@@ -1,6 +1,10 @@
 drag = false
 x_offset = 0
 y_offset = 0
+x_pos = 25
+y_pos = 25
+bar_width = 220
+bar_height = 8
 
 inventory_items = ds_list_create()
 for(var i=0;i<5;i++){
