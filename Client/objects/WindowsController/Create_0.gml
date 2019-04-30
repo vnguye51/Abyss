@@ -1,5 +1,7 @@
 chatting = false
 inventory = false
 friends = false
-show_debug_message("creating windows controller")
 windows_stack = ds_list_create()
+
+friends_pos = [20,20]
+inventory_pos = [40,40]

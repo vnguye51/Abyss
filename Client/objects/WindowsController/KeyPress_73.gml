@@ -11,11 +11,7 @@ if (not chatting){
 				i += 1
 			}
 		}
-		while(i<ds_list_size(windows_stack)){
-			var inst = windows_stack[| i]
-			inst.depth = inst.depth + 2
-			i += 1
-		}
+		inventory_pos = [inventory_inst.x_pos,inventory_inst.y_pos]
 		instance_destroy(inventory_inst)
 	}
 	else{
@@ -23,4 +19,8 @@ if (not chatting){
 		ds_list_add(windows_stack,inventory_inst)
 		inventory = true
 	}
+}
+for(var i = 0; i<ds_list_size(windows_stack);i++){
+	var inst = windows_stack[| i]
+	inst.depth = -10 + (ds_list_size(windows_stack)-i)*2
 }

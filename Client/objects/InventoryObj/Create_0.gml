@@ -1,16 +1,17 @@
 drag = false
 x_offset = 0
 y_offset = 0
-x_pos = 25
-y_pos = 25
+x_pos = WindowsController.inventory_pos[0]
+y_pos = WindowsController.inventory_pos[1]
 bar_width = 220
 bar_height = 8
-
+curr_item_index = -1
 inventory_items = ds_list_create()
 for(var i=0;i<5;i++){
 	var item = instance_create_depth(0,0,depth-1,InventoryItemObj)
-	item.x_offset = 2+20*i
-	item.y_offset = 182
+	item.x = x_pos + 2+20*i
+	item.y = y_pos + 182
+	item.origin = [item.x,item.y]
 	item.sprite = InventoryItemSprite
 	ds_list_add(inventory_items,item)
 }
