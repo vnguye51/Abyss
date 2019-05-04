@@ -146,7 +146,7 @@ class Players:
                 "x": player.x,
                 "y": player.y,
                 "frame": player.frame,
-                "items": player.items
+                "items": player.inventory
             }
         return res
 
@@ -176,8 +176,9 @@ class Character:
         self.invuln_timer = 0
         self.flag_for_removal = False
         self.request_item = False
-        self.items = {
-            "Gold" : 0
+        self.inventory = {
+            "Gold" : 0,
+            "Items": {}
         }
 
 class Player(Character):

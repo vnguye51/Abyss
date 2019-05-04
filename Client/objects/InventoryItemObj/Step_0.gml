@@ -4,6 +4,6 @@ if(drag){
 	y = window_mouse_get_y()-8
 }
 else{
-	x = origin[0]
-	y = origin[1]
+	x = InventoryObj.x_pos + origin[0]
+	y = InventoryObj.y_pos + origin[1]
 }

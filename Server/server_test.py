@@ -2,6 +2,7 @@ import asyncio,time,struct,json
 from objects.objects import *
 from items.main import Item_Drop_Handler, Gold
 from utils import SpatialMap, AABB
+import mysql.connector
 
 ##Assign Port and IP of Host
 HOST = '127.0.0.1'
@@ -17,8 +18,15 @@ enemies = Enemies()
 attacks = Attacks()
 items = Item_Drop_Handler()
 
+database = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  passwd="7182011"
+)
+
 items.instantiate(Gold, 80, 80, 50)
-enemies.instantiate(Goblin, 64, 64, attacks)
+# enemies.instantiate(Goblin, 64, 64, attacks)
+# enemies.instantiate(Goblin,128,128,attacks)
 id_assignment = 0
 spatial_map = SpatialMap(map_json)
 
@@ -79,6 +87,11 @@ def broadcast_message(player_id,message):
         player.write_to_buffer(raw_message)
 
     
+def drop_item(player,item):
+    print(item)
+    items.instantiate(Gold,player.x,player.y,val=30)
+    pass
+
 def export_objects(player,player_data,enemy_data,attack_data,item_data):
     """Encode a message containing player and enemy info"""
     data = {
@@ -111,10 +124,14 @@ async def echo_server(reader, writer):
             decoded_data = data.decode("utf-8").split("\x00")
             client_message = json.loads(decoded_data[0])["messages"]
             for message in client_message:
+                ##turn into a hash if it gets too big
                 if message["message_id"] == 1:
                     player.player_input(message)
                 elif message["message_id"] == 2:
                     broadcast_message(player.id,message["message"])
+                elif message["message_id"] == 3:
+                    #drop item
+                    drop_item(player,message["item"])
             if not data:
                 print('breaking connection to %s' % addr[1])
                 break
@@ -149,6 +166,7 @@ async def game_loop():
         #Check for items that need to be removed
         for item in items.item_array:
             item.update()
+        print([(item.x,item.y) for item in items.item_array])
         items.item_array = list(filter(lambda item: not item.flag_for_removal,items.item_array))
 
         #Handle requests for item pickups

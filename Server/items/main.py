@@ -19,6 +19,7 @@ class Item_Drop_Handler:
 
     def instantiate(self,Item,x,y,val=None):
         self.item_array.append(Item(self,self.id_assignment,x,y,val))
+        self.id_assignment += 1
 
 class Item_Drop:
     item_id = -1
@@ -52,11 +53,14 @@ class Gold(Item_Drop):
         self.val = val
     
     def on_pickup(self,char):
-        char.items["Gold"] += self.val
+        char.inventory["Gold"] += self.val
 
 class Small_Health_Potion(Item_Drop):
     item_id = 1
     name = "Health Potion"
-    power = 1
+
+    def on_pickup(self,char):
+        char.inventory["Health Potion"] += 1
+        
 
 

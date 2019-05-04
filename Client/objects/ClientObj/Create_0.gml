@@ -50,6 +50,8 @@ ds_map_add(key_inputs,"up",0)
 ds_map_add(key_inputs,"down",0)
 ds_map_add(key_inputs,"space",0)
 
+item_drop_packet = ds_map_create()
+
 instance_create_depth(0,0,0,WindowsController)
 
 
