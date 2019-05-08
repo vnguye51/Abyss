@@ -1,0 +1,1 @@
+image_xscale=10*string_length(text)
