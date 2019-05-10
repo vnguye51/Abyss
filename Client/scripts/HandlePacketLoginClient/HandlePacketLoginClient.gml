@@ -18,5 +18,8 @@ for(var i=0; i<ds_list_size(decoded_data); i++){
 		case 1:
 			LoginClientObj.response = "Login Failed."
 			break
+		case 2:
+			ChooseCharacterObj.char_list = data[? "char_list"]
+		
 	}	
 }

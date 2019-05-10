@@ -1,38 +1,18 @@
 {
-    "id": "06bfc093-98ef-4a83-9ae6-41820b19c3ca",
+    "id": "a6d8a9e4-6022-49c2-b265-6af7c6cf23df",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "LoginClientObj",
+    "name": "CreateCharacterObj",
     "eventList": [
         {
-            "id": "4fd23f92-e8b6-4ff9-9a40-fb5f53e07487",
+            "id": "464e5a87-01b3-4c16-a8f3-c6171e7a43e4",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
             "enumb": 0,
             "eventtype": 0,
-            "m_owner": "06bfc093-98ef-4a83-9ae6-41820b19c3ca"
-        },
-        {
-            "id": "6fe5ae6a-f210-49a6-9375-041881b59de4",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 0,
-            "eventtype": 3,
-            "m_owner": "06bfc093-98ef-4a83-9ae6-41820b19c3ca"
-        },
-        {
-            "id": "4d70b809-84eb-4ff0-912b-6e2cc19daa3b",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 68,
-            "eventtype": 7,
-            "m_owner": "06bfc093-98ef-4a83-9ae6-41820b19c3ca"
+            "m_owner": "a6d8a9e4-6022-49c2-b265-6af7c6cf23df"
         }
     ],
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",

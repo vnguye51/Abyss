@@ -8,5 +8,5 @@ buffer_seek( LoginSocketObj.buffer, buffer_seek_start, 0 );
 ds_list_clear(LoginClientObj.messages)
 create_message = ds_map_create()
 create_message[? "id"] = 1
-create_message[? "username"] = LoginClientObj.username
-create_message[? "password"] = LoginClientObj.password
+create_message[? "username"] = UsernameInputObj.text
+create_message[? "password"] = PasswordInputObj.text

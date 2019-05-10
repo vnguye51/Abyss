@@ -1,0 +1,1 @@
+color = make_color_rgb(50,50,50)

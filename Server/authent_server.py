@@ -1,10 +1,12 @@
 
 import asyncio,time,struct,json
-from Database import authent_actions as authentication
+from Database.actions import Authentication
 
 ##Assign Port and IP of Host
 HOST = '127.0.0.1'
 PORT = 8081
+
+authentication = Authentication()
 
 def write_to_buffer(writer,message):
     writer.buffer.append(message)
@@ -15,9 +17,11 @@ def export_packet(writer):
     writer.buffer = []
 
 def create_character(writer,message):
+    print("creating character")
     authentication.create_new(message["username"],message["password"])
 
 def login(writer,message):
+    print("logging in")
     if authentication.login(message["username"],message["password"]):
         message = {
             "id": 0,
@@ -58,13 +62,13 @@ async def echo_server(reader, writer):
         except ConnectionError:
             print("Lost Connection to (%s,%s)" % (addr[0],addr[1]))
             break
-        except:
+        except Exception as e:
+            print(e)
             break
     writer.close()
 
 
 async def main(host, port):
-    print("server starting on port %s" % PORT)
     server = await asyncio.start_server(echo_server, host, port)
     await asyncio.gather(server.serve_forever())
 

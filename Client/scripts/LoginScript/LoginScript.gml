@@ -8,5 +8,5 @@ ds_list_clear(LoginClientObj.messages)
 
 login_message = ds_map_create()
 login_message[? "id"] = 2
-login_message[? "username"] = LoginClientObj.username
-login_message[? "password"] = LoginClientObj.password
+login_message[? "username"] = UsernameInputObj.text
+login_message[? "password"] = PasswordInputObj.text

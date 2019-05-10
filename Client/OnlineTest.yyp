@@ -191,6 +191,14 @@
             }
         },
         {
+            "Key": "34488da8-f589-49ec-bd24-50e899ddd18b",
+            "Value": {
+                "id": "54b5cfce-bae9-4827-93f7-72ff8b0f3fec",
+                "resourcePath": "objects\\LoginWindow\\LoginWindow.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "35d1cf20-7eb6-4423-85be-8b98d6825e7a",
             "Value": {
                 "id": "510891ea-8449-4108-945f-e3806b2829ac",
@@ -351,6 +359,14 @@
             }
         },
         {
+            "Key": "6975436d-d8ad-49a6-9155-147596851e98",
+            "Value": {
+                "id": "c376175c-1729-45de-828e-484d4f9f7b79",
+                "resourcePath": "objects\\CharacterObj\\CharacterObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "6ddc899b-a2c5-4fae-a547-8795cfec48cb",
             "Value": {
                 "id": "8459cc42-257f-4dfe-ac75-e80fd95849e3",
@@ -399,11 +415,35 @@
             }
         },
         {
+            "Key": "80317689-12ed-4eaf-9c38-1b726e65ab02",
+            "Value": {
+                "id": "5879fe7d-6a08-4223-8951-c0bc4c3fe605",
+                "resourcePath": "objects\\UsernameInputObj\\UsernameInputObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "8237202c-1726-4e46-8464-a84110b11b85",
             "Value": {
                 "id": "3900ae8b-32ec-4af2-8f0a-58f85d93cc6d",
                 "resourcePath": "sprites\\ExpBarTopSprite\\ExpBarTopSprite.yy",
                 "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "8409a624-b41d-40be-8ff3-57ff18d34234",
+            "Value": {
+                "id": "4b2e58f4-6ef6-4f11-830a-ad17f865cf62",
+                "resourcePath": "sprites\\LoginWindowSprite\\LoginWindowSprite.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "88c1060c-8993-4d22-98b9-e917ee6b0a01",
+            "Value": {
+                "id": "1855a0a8-d19b-4606-a8a3-5979a348a887",
+                "resourcePath": "objects\\ConfirmCreateButton\\ConfirmCreateButton.yy",
+                "resourceType": "GMObject"
             }
         },
         {
@@ -444,6 +484,14 @@
                 "id": "df752647-cd87-47d1-b17c-6e4ebb73c773",
                 "resourcePath": "sprites\\OtherPlayerSprite\\OtherPlayerSprite.yy",
                 "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "901a7bdd-2a33-41f4-9768-10dc9dc7b6f7",
+            "Value": {
+                "id": "03ec56f3-4211-4e69-a938-636de391e2a9",
+                "resourcePath": "objects\\TextInputObj\\TextInputObj.yy",
+                "resourceType": "GMObject"
             }
         },
         {
@@ -511,6 +559,14 @@
             }
         },
         {
+            "Key": "a6d8a9e4-6022-49c2-b265-6af7c6cf23df",
+            "Value": {
+                "id": "3d01d3a8-9c5a-44e2-abdc-807f6f279175",
+                "resourcePath": "objects\\CreateCharacterObj\\CreateCharacterObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "a8567c83-9414-4088-b9fa-6c4e22a5b53b",
             "Value": {
                 "id": "d6d5b979-8a8d-4e4c-a8f3-bffd5f8cf7b7",
@@ -535,6 +591,14 @@
             }
         },
         {
+            "Key": "b27c947f-166a-4497-9658-a1bc94025f03",
+            "Value": {
+                "id": "8d44d3a4-ab1c-474a-810a-f736d66f30a0",
+                "resourcePath": "objects\\ChooseColorObj\\ChooseColorObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
             "Key": "b36de2d3-ab20-48b5-b181-2f23446197c8",
             "Value": {
                 "id": "841b823a-626b-41f2-9be4-e0dc24d7b894",
@@ -555,6 +619,14 @@
             "Value": {
                 "id": "47922d68-68ee-4d38-bb94-eff8a94af584",
                 "resourcePath": "objects\\InventoryObj\\InventoryObj.yy",
+                "resourceType": "GMObject"
+            }
+        },
+        {
+            "Key": "bb809fd0-69a8-4e9e-b5a1-9d2b6dbc2def",
+            "Value": {
+                "id": "72f767a5-d43a-4bdd-9eb1-d9e60c5bdfb4",
+                "resourcePath": "objects\\PasswordInputObj\\PasswordInputObj.yy",
                 "resourceType": "GMObject"
             }
         },
